@@ -3,7 +3,146 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/landing-page.css" />
     <title>Movies page</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="navbar">
+        <a href="/">
+          <img
+            src="./images/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg"
+            alt="The movie data base"
+          />
+        </a>
+        <span>Movies</span>
+        <span>TV Shows</span>
+        <span>People</span>
+        <span>More</span>
+      </div>
+      <section>
+        <div class="search-container">
+          <input
+            type="text"
+            class="moving-input"
+            placeholder="Search for a movie, tv show,person..."
+            id="movie-search-box"
+            onkeyup="searchMovies()"
+          />
+          <div class="search-list" id="search-list">
+            <!-- <div class="search-list-item">
+              <div class="search-list-thumbnail">
+                <img
+                  src="./images/MV5BMDEzMmQwZjctZWU2My00MWNlLWE0NjItMDJlYTRlNGJiZjcyXkEyXkFqcGc@._V1_.jpg"
+                  alt="avatar"
+                />
+              </div>
+              <div class="search-item-info">
+                <h3>Avatar</h3>
+                <p>2017</p>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="search-box">
+          <img
+            src="./images/house-of-the-dragon-s2-ka-1920.avif"
+            alt=""
+            class="house-of-dragon-img"
+          />
+          <div class="text-on-image">
+            <h1>Welcome.</h1>
+            <p>
+              Millions of movies, TV shows and people to discover. Explore now.
+            </p>
+            <div class="whole-search-bar">
+              <input
+                type="text"
+                class="input-on-image"
+                placeholder="Search for a movie, tv show,person..."
+              />
+              <button class="input-button">Search</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+    <main>
+      <section class="movie-section">
+        <div class="movie-header">
+          <h3>Treinding</h3>
+          <div class="movie-date">
+            <button class="btn active" id="today">Today</button>
+            <button class="btn" id="week">This week</button>
+          </div>
+        </div>
+        <div class="movies-container" id="trending-movies"></div>
+      </section>
+
+      <section class="movie-section">
+        <div class="movie-header">
+          <h3>What's Popular</h3>
+          <div class="movie-date">
+            <button class="btn active" id="streaming">Streaming</button>
+            <button class="btn" id="on-tv-popular">On TV</button>
+            <button class="btn" id="for-rent">For Rent</button>
+            <button class="btn" id="this-week-popular">This Week</button>
+          </div>
+        </div>
+        <div class="movies-container" id="popular-movies"></div>
+      </section>
+      <section class="movie-section">
+        <div class="movie-header">
+          <h3>Free To Watch</h3>
+          <div class="movie-date">
+            <button class="btn active">Movies</button>
+            <button class="btn">TV</button>
+          </div>
+        </div>
+        <div class="movies-container" id="free-movies"></div>
+      </section>
+    </main>
+    <footer>
+      <div class="footer-logo">
+        <img
+          src="./images/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+          alt="საას"
+        />
+      </div>
+      <div>
+        <h2>THE BASICS</h2>
+        <p>About TMDB</p>
+        <p>Contact Us</p>
+        <p>Support Forums</p>
+        <p>API Documentation</p>
+        <p>System Status</p>
+      </div>
+      <div>
+        <h2>GET INVOLVED</h2>
+        <p>Contribution Bible</p>
+        <p>Add New Movie</p>
+        <p>Add New TV Show</p>
+      </div>
+      <div>
+        <h2>COMMMUNITY</h2>
+        <p>Guidelines</p>
+        <p>Discussions</p>
+        <p>Leaderboard</p>
+      </div>
+      <div>
+        <h2>LEGAL</h2>
+        <p>Terms of Use</p>
+        <p>API Terms of Use</p>
+        <p>Privacy Policy</p>
+        <p>DMCA Policy</p>
+      </div>
+    </footer>
+    <script src="./js/script.js"></script>
+  </body>
 </html>
