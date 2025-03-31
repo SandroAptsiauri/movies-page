@@ -146,3 +146,9 @@ const displayMovieList = (movies) => {
     searchList.appendChild(movieListItem);
   });
 };
+document.addEventListener("click", (event) => {
+  if (!searchContainer.contains(event.target)) {
+    searchList.classList.add("hide-search-list");
+    movieSearchBox.value = "";
+  }
+});
