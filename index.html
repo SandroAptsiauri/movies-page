@@ -19,95 +19,14 @@
             alt="The movie data base"
           />
         </a>
-        <span>Movies</span>
-        <span>TV Shows</span>
-        <span>People</span>
-        <span>More</span>
+        <a>Trending</a>
+        <a>Popular Streaming</a>
+        <a>People</a>
+        <a>More</a>
       </div>
-      <section>
-        <div class="search-container" id="search-container">
-          <input
-            type="text"
-            class="moving-input"
-            placeholder="Search for a movie, tv show,person..."
-            id="movie-search-box"
-            onkeyup="searchMovies()"
-          />
-          <div class="search-list" id="search-list">
-            <!-- <div class="search-list-item">
-              <div class="search-list-thumbnail">
-                <img
-                  src="./images/MV5BMDEzMmQwZjctZWU2My00MWNlLWE0NjItMDJlYTRlNGJiZjcyXkEyXkFqcGc@._V1_.jpg"
-                  alt="avatar"
-                />
-              </div>
-              <div class="search-item-info">
-                <h3>Avatar</h3>
-                <p>2017</p>
-              </div>
-            </div> -->
-          </div>
-        </div>
-      </section>
-      <section>
-        <div class="search-box">
-          <img
-            src="./images/house-of-the-dragon-s2-ka-1920.avif"
-            alt=""
-            class="house-of-dragon-img"
-          />
-          <div class="text-on-image">
-            <h1>Welcome.</h1>
-            <p>
-              Millions of movies, TV shows and people to discover. Explore now.
-            </p>
-            <div class="whole-search-bar">
-              <input
-                type="text"
-                class="input-on-image"
-                placeholder="Search for a movie, tv show,person..."
-              />
-              <button class="input-button">Search</button>
-            </div>
-          </div>
-        </div>
-      </section>
     </header>
-    <main>
-      <section class="movie-section">
-        <div class="movie-header">
-          <h3>Treinding</h3>
-          <div class="movie-date">
-            <button class="btn active" id="today">Today</button>
-            <button class="btn" id="week">This week</button>
-          </div>
-        </div>
-        <div class="movies-container" id="trending-movies"></div>
-      </section>
 
-      <section class="movie-section">
-        <div class="movie-header">
-          <h3>What's Popular</h3>
-          <div class="movie-date">
-            <button class="btn active" id="streaming">Streaming</button>
-            <button class="btn" id="on-tv-popular">On TV</button>
-            <button class="btn" id="for-rent">For Rent</button>
-            <button class="btn" id="this-week-popular">This Week</button>
-          </div>
-        </div>
-        <div class="movies-container" id="popular-movies"></div>
-      </section>
-      <section class="movie-section">
-        <div class="movie-header">
-          <h3>Free To Watch</h3>
-          <div class="movie-date">
-            <button class="btn active">Movies</button>
-            <button class="btn">TV</button>
-          </div>
-        </div>
-        <div class="movies-container" id="free-movies"></div>
-      </section>
-    </main>
+    <main id="main-container"></main>
     <footer>
       <div class="footer-logo">
         <img

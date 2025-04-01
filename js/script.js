@@ -1,11 +1,63 @@
-document.addEventListener("DOMContentLoaded", () => {
+function generateMainContent(container) {
+  container.innerHTML = `
+  <section>
+      <div class="search-container" id="search-container">
+          <input type="text" class="moving-input" placeholder="Search for a movie, tv show, person..." id="movie-search-box" />
+          <div class="search-list" id="search-list"></div>
+      </div>
+  </section>
+
+  <section>
+      <div class="search-box">
+          <img src="./images/house-of-the-dragon-s2-ka-1920.avif" alt="House of the Dragon" class="house-of-dragon-img" />
+          <div class="text-on-image">
+              <h1>Welcome.</h1>
+              <p>Millions of movies, TV shows, and people to discover. Explore now.</p>
+          </div>
+      </div>
+  </section>
+
+  <section class="movie-main-container">
+      <section class="movie-section">
+          <div class="movie-header">
+              <h3>Trending</h3>
+              <div class="movie-date">
+                  <button class="btn active" id="today">Today</button>
+                  <button class="btn" id="week">This week</button>
+              </div>
+          </div>
+          <div class="movies-container" id="trending-movies"></div>
+      </section>
+      
+      <section class="movie-section">
+          <div class="movie-header">
+              <h3>What's Popular</h3>
+              <div class="movie-date">
+                  <button class="btn active" id="streaming">Streaming</button>
+              </div>
+          </div>
+          <div class="movies-container" id="popular-movies"></div>
+      </section>
+
+      <section class="movie-section">
+          <div class="movie-header">
+              <h3>Free To Watch</h3>
+              <div class="movie-date">
+                  <button class="btn active">Movies</button>
+                  <button class="btn">TV</button>
+              </div>
+          </div>
+          <div class="movies-container" id="free-movies"></div>
+      </section>
+  </section>`;
   const trendingMoviesContainer = document.getElementById("trending-movies");
   const popularMoviesContainer = document.getElementById("popular-movies");
   const freeMoviesContainer = document.getElementById("free-movies");
   const trendingDayBtn = document.getElementById("today");
   const trendingWeekBtn = document.getElementById("week");
-  const searchInput = document.querySelector(".input-on-image");
-  const searchButton = document.querySelector(".input-button");
+  const movieSearchBox = document.getElementById("movie-search-box");
+  const searchList = document.getElementById("search-list");
+  const searchContainer = document.getElementById("search-container");
 
   const BASE_URL = "https://api.themoviedb.org/3";
   const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
@@ -22,10 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let movies = [];
   const fetchMovies = async (urlToFetch, moviesContainer) => {
     try {
-      const res = await fetch(
-        `https://api.themoviedb.org/3${urlToFetch}`,
-        options
-      );
+      const res = await fetch(`${BASE_URL}${urlToFetch}`, options);
       const data = await res.json();
       movies = data.results.map((movie) => ({
         ...movie,
@@ -90,65 +139,59 @@ document.addEventListener("DOMContentLoaded", () => {
   //   );
   //   displayMovies(filteredMovies);
   // };
-});
-const movieSearchBox = document.getElementById("movie-search-box");
-const searchList = document.getElementById("search-list");
-const searchContainer = document.getElementById("search-container");
 
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
-  },
-};
-
-const loadMovies = async (searchTerm) => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1`,
-    options
-  );
-  const data = await res.json();
-  displayMovieList(data.results.slice(0, 10));
-};
-
-const searchMovies = () => {
-  const query = movieSearchBox.value.trim("").toLowerCase();
-  if (query.length > 0) {
-    searchList.classList.remove("hide-search-list");
-    loadMovies(query);
-  } else {
-    searchList.classList.add("hide-search-list");
+  async function loadMovies(searchTerm) {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=1`,
+      options
+    );
+    const data = await res.json();
+    displayMovieList(data.results.slice(0, 10));
   }
-};
-const displayMovieList = (movies) => {
-  searchList.innerHTML = "";
-  movies.forEach((movie) => {
-    const movieListItem = document.createElement("div");
-    movieListItem.dataset.id = movie.id;
-    movieListItem.classList.add("search-list-item");
-    const posterUrl = movie.poster_path
-      ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-      : "https://via.placeholder.com/200x300?text=No+Image";
-    movieListItem.innerHTML = `
-    <div class="search-list-item">
-              <div class="search-list-thumbnail">
-                <img
-                  src="${posterUrl}"
-                  alt="${movie.title} image"
-                />
-              </div>
-              <div class="search-item-info">
-                <h3>${movie.title}</h3>
-              </div>
-            </div>`;
-    searchList.appendChild(movieListItem);
+
+  function searchMovies() {
+    const query = movieSearchBox.value.trim("").toLowerCase();
+    if (query.length > 0) {
+      searchList.classList.remove("hide-search-list");
+      loadMovies(query);
+    } else {
+      searchList.classList.add("hide-search-list");
+    }
+  }
+  function displayMovieList(movies) {
+    searchList.innerHTML = "";
+    movies.forEach((movie) => {
+      const movieListItem = document.createElement("div");
+      movieListItem.dataset.id = movie.id;
+      movieListItem.classList.add("search-list-item");
+      const posterUrl = movie.poster_path
+        ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
+        : "https://via.placeholder.com/200x300?text=No+Image";
+      movieListItem.innerHTML = `
+      <div class="search-list-item">
+                <div class="search-list-thumbnail">
+                  <img
+                    src="${posterUrl}"
+                    alt="${movie.title} image"
+                  />
+                </div>
+                <div class="search-item-info">
+                  <h3>${movie.title}</h3>
+                </div>
+              </div>`;
+      searchList.appendChild(movieListItem);
+    });
+  }
+  movieSearchBox.addEventListener("keyup", searchMovies);
+  document.addEventListener("click", (event) => {
+    if (!searchContainer.contains(event.target)) {
+      searchList.classList.add("hide-search-list");
+      movieSearchBox.value = "";
+    }
   });
-};
-document.addEventListener("click", (event) => {
-  if (!searchContainer.contains(event.target)) {
-    searchList.classList.add("hide-search-list");
-    movieSearchBox.value = "";
-  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mainContainer = document.getElementById("main-container");
+  generateMainContent(mainContainer);
 });

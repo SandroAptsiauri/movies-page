@@ -21,11 +21,12 @@ header {
   align-items: center;
   color: white;
   gap: 50px;
+  padding: 40px;
 }
 .navbar img {
   width: 100%;
 }
-.navbar span {
+.navbar a {
   font-size: 30px;
   cursor: pointer;
 }
@@ -113,47 +114,19 @@ header {
 }
 .text-on-image h1 {
   font-size: 80px;
-  text-align: start;
+  text-align: center;
 }
 .text-on-image p {
   font-size: 40px;
 }
-.input-on-image {
-  margin-top: 100px;
-  width: 100%;
-  height: 46px;
-  line-height: 46px;
-  font-size: 1.1em;
-  color: rgba(0, 0, 0, 0.5);
-  border: 0;
-  border-radius: 30px;
-  padding: 10px 20px;
-  position: relative;
-}
-.input-button {
-  height: 46px;
-  padding: 10px 26px;
-  border: 0;
-  background: linear-gradient(
-    to right,
-    rgba(30, 213, 169, 1) 0%,
-    rgba(1, 180, 228, 1) 100%
-  );
-  border-radius: 30px;
-  position: absolute;
-  top: 100px;
-  right: 1.5px;
-  z-index: 2;
-  color: #fff;
-  cursor: pointer;
-}
-main {
-  padding-left: 45px;
-}
+
 .movie-section {
   margin-top: 45px;
 }
 
+.movie-main-container {
+  padding-left: 45px;
+}
 .movie-header {
   display: flex;
   align-items: center;
