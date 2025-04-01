@@ -43,8 +43,8 @@ function generateMainContent(container) {
           <div class="movie-header">
               <h3>Free To Watch</h3>
               <div class="movie-date">
-                  <button class="btn active">Movies</button>
-                  <button class="btn">TV</button>
+                  <button class="btn active" id="free-movies-btn">Movies</button>
+                  <button class="btn" id="tv-free">TV</button>
               </div>
           </div>
           <div class="movies-container" id="free-movies"></div>
@@ -55,6 +55,8 @@ function generateMainContent(container) {
   const freeMoviesContainer = document.getElementById("free-movies");
   const trendingDayBtn = document.getElementById("today");
   const trendingWeekBtn = document.getElementById("week");
+  const freeToWatchMovies = document.getElementById("free-movies-btn");
+  const freeToWatchTv = document.getElementById("tv-free");
   const movieSearchBox = document.getElementById("movie-search-box");
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
@@ -119,7 +121,7 @@ function generateMainContent(container) {
   fetchMovies("/trending/all/day?language=en-US", trendingMoviesContainer);
   fetchMovies("/movie/popular?language=en-US&page=1", popularMoviesContainer);
   fetchMovies(
-    `/discover/movie?api_key=${API_KEY}&watch_region=US&with_watch_monetization_types=free`,
+    `/discover/movie?&watch_region=US&with_watch_monetization_types=free`,
     freeMoviesContainer
   );
   trendingWeekBtn.addEventListener("click", () => {
@@ -131,6 +133,22 @@ function generateMainContent(container) {
     fetchMovies("/trending/all/day?language=en-US", trendingMoviesContainer);
     trendingDayBtn.classList.add("active");
     trendingWeekBtn.classList.remove("active");
+  });
+  freeToWatchTv.addEventListener("click", () => {
+    fetchMovies(
+      "/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc",
+      freeMoviesContainer
+    );
+    freeToWatchTv.classList.add("active");
+    freeToWatchMovies.classList.remove("active");
+  });
+  freeToWatchMovies.addEventListener("click", () => {
+    fetchMovies(
+      `/discover/movie?&watch_region=US&with_watch_monetization_types=free`,
+      freeMoviesContainer
+    );
+    freeToWatchMovies.classList.add("active");
+    freeToWatchTv.classList.remove("active");
   });
   // const searchTerm = () => {
   //   const query = searchInput.value.toLowerCase();
