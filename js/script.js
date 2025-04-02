@@ -18,8 +18,8 @@ function generateMainContent(container) {
   </section>
 
   <section class="movie-main-container">
-      <section class="movie-section">
-          <div class="movie-header">
+      <section class="movie-section" id="trending">
+          <div class="movie-header" >
               <h3>Trending</h3>
               <div class="movie-date">
                   <button class="btn active" id="today">Today</button>
@@ -29,7 +29,7 @@ function generateMainContent(container) {
           <div class="movies-container" id="trending-movies"></div>
       </section>
       
-      <section class="movie-section">
+      <section class="movie-section" id="popular">
           <div class="movie-header">
               <h3>What's Popular</h3>
               <div class="movie-date">
@@ -39,7 +39,7 @@ function generateMainContent(container) {
           <div class="movies-container" id="popular-movies"></div>
       </section>
 
-      <section class="movie-section">
+      <section class="movie-section" id="free">
           <div class="movie-header">
               <h3>Free To Watch</h3>
               <div class="movie-date">

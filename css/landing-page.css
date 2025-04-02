@@ -29,6 +29,8 @@ header {
 .navbar a {
   font-size: 30px;
   cursor: pointer;
+  color: white;
+  text-decoration: none;
 }
 .search-container {
   position: relative;
