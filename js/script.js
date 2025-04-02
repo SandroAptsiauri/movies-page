@@ -103,22 +103,26 @@ function generateMainContent(container) {
       const cardDiv = document.createElement("div");
       cardDiv.classList.add("card");
       cardDiv.innerHTML = `
-       <div id=${movie.id}>
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${
+       <div id="${movie.id}" class="card">
+  <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${
         movie.title
-      }" />
-       </div>
-        
-        <h3>${movie.title}</h3>
-        ${
-          movie.releaseDate
-            ? `
-          <p>${movie.releaseDate[2]}-${movie.releaseDate[1]}, ${movie.releaseDate[0]}</p>
-        `
-            : `<p>Release date not available</p>`
-        }
+      }" />  
+  <h3>${movie.title}</h3>
+  <p>${
+    movie.releaseDate
+      ? `${movie.releaseDate[2]}-${movie.releaseDate[1]}, ${movie.releaseDate[0]}`
+      : "Release date not available"
+  }</p>
+</div>
       `;
       moviesContainerToDisplay.appendChild(cardDiv);
+    });
+    moviesContainerToDisplay.addEventListener("click", (event) => {
+      const movieItem = event.target.closest(".card");
+      if (movieItem) {
+        const movieId = movieItem.getAttribute("id");
+        console.log(movieId);
+      }
     });
   }
   fetchMovies("/trending/all/day?language=en-US", trendingMoviesContainer);
@@ -183,13 +187,12 @@ function generateMainContent(container) {
     searchList.innerHTML = "";
     movies.forEach((movie) => {
       const movieListItem = document.createElement("div");
-      movieListItem.dataset.id = movie.id;
       movieListItem.classList.add("search-list-item");
       const posterUrl = movie.poster_path
         ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
         : "https://via.placeholder.com/200x300?text=No+Image";
       movieListItem.innerHTML = `
-      <div class="search-list-item">
+      <div class="search-list-item" id="${movie.id}">
                 <div class="search-list-thumbnail">
                   <img
                     src="${posterUrl}"
@@ -201,6 +204,12 @@ function generateMainContent(container) {
                 </div>
               </div>`;
       searchList.appendChild(movieListItem);
+    });
+    searchList.addEventListener("click", (event) => {
+      if (event.target.classList.contains("search-list-item")) {
+        const movieId = event.target.getAttribute("id");
+        console.log(movieId);
+      }
     });
   }
   movieSearchBox.addEventListener("keyup", searchMovies);
