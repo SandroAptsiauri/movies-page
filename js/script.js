@@ -74,8 +74,11 @@ function generateMainContent(container) {
 
   // MOVIES FETCHING AND DISPLAYING THEM
   let movies = [];
+  let loading = false;
   const fetchMovies = async (urlToFetch, moviesContainer) => {
     try {
+      loading = true;
+      moviesContainer.innerHTML = "<p>Loading . . . </p>";
       const res = await fetch(`${BASE_URL}${urlToFetch}`, options);
       const data = await res.json();
       movies = data.results.map((movie) => ({
@@ -87,8 +90,8 @@ function generateMainContent(container) {
           ? movie.first_air_date.split("-")
           : null,
       }));
-      console.log(data.results);
       displayMovies(movies, moviesContainer);
+      loading = false;
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
