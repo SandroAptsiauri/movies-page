@@ -2,7 +2,7 @@ function generateMainContent(container) {
   container.innerHTML = `
   <section>
       <div class="search-container" id="search-container">
-          <input type="text" class="moving-input" placeholder="Search for a movie, tv show, person..." id="movie-search-box" />
+          <input type="text" class="moving-input" autocomplete="off" placeholder="Search for a movie, tv show, person..." id="movie-search-box" />
           <div class="search-list" id="search-list"></div>
       </div>
   </section>
