@@ -47,7 +47,7 @@ header_link.addEventListener("click", function () {
   )
     .then((res) => res.json())
     .then((res) => console.log(res))
-    .catch((err) => console.error(err));
+    .catch((err) => display_error());
 });
 
 const move = document.querySelector(".gilgamesh");
@@ -55,7 +55,6 @@ const move = document.querySelector(".gilgamesh");
 move.addEventListener("click", function () {
   const movie_id = 1197306;
 
-  // console.log(movie_id);
   document.getElementById("content").innerHTML = "";
 
   getPageContent("about");
@@ -63,14 +62,28 @@ move.addEventListener("click", function () {
   display(movie_id);
 });
 
+function display_error() {
+  const main_container = document.querySelector(".main-container");
+
+  main_container.innerHTML = `<div>Couldn't Load The Movie. Please Try Again Later</div>`;
+}
+
 function display(movie_id) {
-  fetch(
-    `https://api.themoviedb.org/3/movie/${movie_id}?language=en-US`,
-    options
-  )
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
+  const loadingOverlay = document.querySelector(".loading-overlay");
+  loadingOverlay.style.display = "flex";
+
+  async function fetchMovieDetails(id) {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+        options
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch credits data");
+      }
+
+      const res = await response.json();
 
       const main_container = document.querySelector(".main-container");
 
@@ -128,7 +141,7 @@ function display(movie_id) {
                     <div class="blured">
                       <img
                       class='poster-image'
-                        src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/byC5kuHuqHU2FGFI8grcnrm8JOG.jpg"
+                        src="./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
                         alt=""
                       />
                     </div>
@@ -283,36 +296,47 @@ function display(movie_id) {
         </div>
       </div>
         `;
-    })
-    .catch((err) => console.error(err));
+    } catch (err) {
+      display_error();
+    }
+  }
 
-  fetch(`https://api.themoviedb.org/3/movie/${movie_id}/images`, options)
-    .then((res) => res.json())
-    .then((res) => {
-      console.log(res);
+  async function fetchMovieMedia(id) {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/images`,
+        options
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch credits data");
+      }
+
+      const resMedia = await response.json();
+
       const image = document.querySelector(".poster-image");
 
       image.setAttribute(
         "src",
-        "https://image.tmdb.org/t/p/w500" + `${res.posters[0].file_path}`
+        "https://image.tmdb.org/t/p/w500" + `${resMedia.posters[0].file_path}`
       );
 
       const movie_details = document.querySelector(".movie-details");
 
       movie_details.style.backgroundImage = `url(
-      https://image.tmdb.org/t/p/w500${res.posters[0].file_path}
+      https://image.tmdb.org/t/p/w500${resMedia.posters[0].file_path}
     )`;
 
       const backdropsCount = document.querySelector(
         ".media-list-backdrops-num"
       );
-      backdropsCount.textContent = res.backdrops.length;
+      backdropsCount.textContent = resMedia.backdrops.length;
 
       const logosCount = document.querySelector(".list-logos-num");
-      logosCount.textContent = res.logos.length;
+      logosCount.textContent = resMedia.logos.length;
 
       const postersCount = document.querySelector(".list-posters-num");
-      postersCount.textContent = res.posters.length;
+      postersCount.textContent = resMedia.posters.length;
 
       const bck = document.querySelector(".bck-drp");
       const lgs = document.querySelector(".lgs");
@@ -322,11 +346,11 @@ function display(movie_id) {
       );
 
       async function media_list() {
-        const k = await fetch(
+        const response = await fetch(
           `https://api.themoviedb.org/3/movie/${movie_id}/images`,
           options
         );
-        const res = await k.json();
+        const res = await response.json();
 
         if (bck.classList.contains("active")) {
           res.backdrops.forEach((cur) => {
@@ -412,14 +436,24 @@ function display(movie_id) {
       });
 
       media_list();
-    });
+    } catch (err) {
+      display_error();
+    }
+  }
 
-  fetch(
-    `https://api.themoviedb.org/3/movie/${movie_id}/credits?language=en-US`,
-    options
-  )
-    .then((res) => res.json())
-    .then((res) => {
+  async function creditsFetch(id) {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+        options
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch credits data");
+      }
+
+      const res = await response.json();
+
       const olCrew = document.querySelector(".people");
 
       res.crew.forEach((cur) => {
@@ -439,15 +473,6 @@ function display(movie_id) {
           li.append(p_name, p_job);
         }
       });
-
-      // <li class="scroller-card">
-      //   <img
-      //     src="https://media.themoviedb.org/t/p/w600_and_h900_bestv2/byC5kuHuqHU2FGFI8grcnrm8JOG.jpg"
-      //     alt="actor"
-      //   />
-      //   <p class="scroller-actor-name">Seth Rogan</p>
-      //   <p class="scroller-character-name">Matt Remick</p>
-      // </li>;
 
       const olCast = document.querySelector(".scroller-cast-list");
 
@@ -477,21 +502,24 @@ function display(movie_id) {
         olCast.appendChild(li);
         li.append(scroller_card_img, p__actor_name, p_character_name);
       });
-      console.log(res);
-    })
-    .catch((err) => console.error(err));
+    } catch (err) {
+      display_error();
+    }
+  }
 
-  fetch(
-    `https://api.themoviedb.org/3/movie/${movie_id}/reviews?language=en-US&page=1`,
-    options
-  )
-    .then((res) => res.json())
-    .then((res) => console.log("sjajasn", res))
-    .catch((err) => console.error(err));
+  async function keywordsFetch(id) {
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/keywords`,
+        options
+      );
 
-  fetch(`https://api.themoviedb.org/3/movie/${movie_id}/keywords`, options)
-    .then((res) => res.json())
-    .then((res) => {
+      if (!response.ok) {
+        throw new Error("Failed to fetch keyframes data");
+      }
+
+      const res = await response.json();
+
       res.keywords.forEach((cur) => {
         const keywords_ul = document.querySelector(".col-2-keywords-ul");
 
@@ -503,8 +531,24 @@ function display(movie_id) {
         li.append(p);
         keywords_ul.append(li);
       });
+    } catch (err) {
+      display_error();
+    }
+  }
+
+  Promise.all([
+    fetchMovieDetails(movie_id),
+    fetchMovieMedia(movie_id),
+    creditsFetch(movie_id),
+    keywordsFetch(movie_id),
+  ])
+    .then(() => {
+      loadingOverlay.style.display = "none";
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      console.log(err);
+      loadingOverlay.style.display = "none";
+    });
 }
 
 // {
