@@ -1,6 +1,6 @@
 const pages = {
   home: `
-        <ul class="jajajaj">
+        <ul class="ul-list">
           <li id="257094">Holland</li>
           <li id="1197306">sss</li>
           <li id="1254786">fff</li>
@@ -20,57 +20,64 @@ const options = {
 
 const movie_ids = [257094, 1197306, 1254786, 447273, 696506];
 
-const jajajaj = document.querySelector(".jajajaj");
-Array.from(jajajaj.children).forEach((cur) => {
-  cur.addEventListener("click", function () {
+const ul_list = document.querySelector(".ul-list");
+
+ul_list.addEventListener("click", function (e) {
+  console.log(e.target.id);
+
+  if (e.target.tagName.toLowerCase() === "li") {
     getPageContent("about");
-    display(cur.id);
-  });
+    display(e.target.id);
+  }
 });
 
-const header_link = document.querySelector(".header_link");
+const header_link = document.querySelector(".header-link");
 
 header_link.addEventListener("click", function () {
-  document.getElementById("content").innerHTML = "";
+  document.getElementById("main-container").innerHTML = "";
   getPageContent("home");
-  const jajajaj = document.querySelector(".jajajaj");
-  Array.from(jajajaj.children).forEach((cur) => {
+
+  const ul_list = document.querySelector(".ul-list");
+  Array.from(ul_list.children).forEach((cur) => {
     cur.addEventListener("click", function () {
       getPageContent("about");
       display(cur.id);
     });
   });
-
-  fetch(
-    "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
-    options
-  )
-    .then((res) => res.json())
-    .then((res) => console.log(res))
-    .catch((err) => display_error());
 });
 
-const move = document.querySelector(".gilgamesh");
+// const move = document.querySelector(".gilgamesh");
 
-move.addEventListener("click", function () {
-  const movie_id = 1197306;
+// move.addEventListener("click", function () {
+//   const movie_id = 1197306;
 
-  document.getElementById("content").innerHTML = "";
+//   document.getElementById("content").innerHTML = "";
 
-  getPageContent("about");
+//   getPageContent("about");
 
-  display(movie_id);
-});
+//   display(movie_id);
+// });
 
-function display_error() {
+function display_error(err) {
   const main_container = document.querySelector(".main-container");
 
-  main_container.innerHTML = `<div>Couldn't Load The Movie. Please Try Again Later</div>`;
+  if (document.querySelector(".error-message")) return;
+
+  main_container.innerHTML = `
+  <div class="error-message">
+    <span class="error-emoji">⚠️</span>
+    <h2>Oops! Something went wrong.</h2>
+    <p>We couldn't load the movie. Please try again later.</p>
+    <p class="error-details">🛑 Error: ${err.message}</p>
+    <button class="retry-btn" onclick="window.location.reload()">🔄 Retry</button>
+  </div>
+`;
 }
 
 function display(movie_id) {
-  const loadingOverlay = document.querySelector(".loading-overlay");
-  loadingOverlay.style.display = "flex";
+  const shimmerOverlay = document.querySelector(".shimmer-overlay");
+
+  shimmerOverlay.classList.remove("hidden");
 
   async function fetchMovieDetails(id) {
     try {
@@ -297,7 +304,7 @@ function display(movie_id) {
       </div>
         `;
     } catch (err) {
-      display_error();
+      display_error(err);
     }
   }
 
@@ -309,7 +316,7 @@ function display(movie_id) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch credits data");
+        throw new Error("Failed to fetch images and other media.");
       }
 
       const resMedia = await response.json();
@@ -437,7 +444,7 @@ function display(movie_id) {
 
       media_list();
     } catch (err) {
-      display_error();
+      display_error(err);
     }
   }
 
@@ -449,7 +456,7 @@ function display(movie_id) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch credits data");
+        throw new Error("Failed to fetch credits data.");
       }
 
       const res = await response.json();
@@ -503,7 +510,7 @@ function display(movie_id) {
         li.append(scroller_card_img, p__actor_name, p_character_name);
       });
     } catch (err) {
-      display_error();
+      display_error(err);
     }
   }
 
@@ -515,7 +522,7 @@ function display(movie_id) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch keyframes data");
+        throw new Error("Failed to fetch keyframes data.");
       }
 
       const res = await response.json();
@@ -532,22 +539,24 @@ function display(movie_id) {
         keywords_ul.append(li);
       });
     } catch (err) {
-      display_error();
+      display_error(err);
     }
   }
 
-  Promise.all([
-    fetchMovieDetails(movie_id),
-    fetchMovieMedia(movie_id),
-    creditsFetch(movie_id),
-    keywordsFetch(movie_id),
-  ])
+  fetchMovieDetails(movie_id)
     .then(() => {
-      loadingOverlay.style.display = "none";
+      return Promise.all([
+        fetchMovieMedia(movie_id),
+        creditsFetch(movie_id),
+        keywordsFetch(movie_id),
+      ]);
     })
     .catch((err) => {
       console.log(err);
-      loadingOverlay.style.display = "none";
+    })
+    .finally(() => {
+      // setTimeout(() => shimmerOverlay.classList.add("hidden"), 500);
+      shimmerOverlay.classList.add("hidden");
     });
 }
 
@@ -583,5 +592,5 @@ function getPageContent(page) {
       contentToReturn = pages.home;
       break;
   }
-  document.getElementById("content").innerHTML = contentToReturn;
+  document.getElementById("main-container").innerHTML = contentToReturn;
 }
