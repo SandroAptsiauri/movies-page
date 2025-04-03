@@ -1,3 +1,20 @@
+// const fetchImages = async () => {
+//   const options = {
+//     method: "GET",
+//     headers: {
+//       accept: "application/json",
+//       Authorization:
+//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
+//     },
+//   };
+//   const res = await fetch(
+//     `https://api.themoviedb.org/3/movie/${1265623}/images`,
+//     options
+//   );
+//   const data = await res.json();
+//   console.log(data);
+// };
+// fetchImages();
 function generateMainContent(container) {
   container.innerHTML = `
   <section>
@@ -9,7 +26,7 @@ function generateMainContent(container) {
 
   <section>
       <div class="search-box">
-          <img src="./images/house-of-the-dragon-s2-ka-1920.avif" alt="House of the Dragon" class="house-of-dragon-img" />
+      <img src="./images/house-of-the-dragon-s2-ka-1920.avif" alt="House of the Dragon" class="house-of-dragon-img" />
           <div class="text-on-image">
               <h1>Welcome.</h1>
               <p>Millions of movies, TV shows, and people to discover. Explore now.</p>
@@ -81,15 +98,17 @@ function generateMainContent(container) {
       moviesContainer.innerHTML = "<p>Loading . . . </p>";
       const res = await fetch(`${BASE_URL}${urlToFetch}`, options);
       const data = await res.json();
-      movies = data.results.map((movie) => ({
-        ...movie,
-        title: movie.name || movie.title,
-        releaseDate: movie.release_date
-          ? movie.release_date.split("-")
-          : movie.first_air_date
-          ? movie.first_air_date.split("-")
-          : null,
-      }));
+      movies = data.results
+        .filter((movie) => movie.poster_path)
+        .map((movie) => ({
+          ...movie,
+          title: movie.name || movie.title,
+          releaseDate: movie.release_date
+            ? movie.release_date.split("-")
+            : movie.first_air_date
+            ? movie.first_air_date.split("-")
+            : null,
+        }));
       displayMovies(movies, moviesContainer);
       loading = false;
     } catch (error) {
@@ -102,8 +121,9 @@ function generateMainContent(container) {
     movieList.forEach((movie) => {
       const cardDiv = document.createElement("div");
       cardDiv.classList.add("card");
+      cardDiv.setAttribute("id", `${movie.id}`);
       cardDiv.innerHTML = `
-       <div id="${movie.id}" class="card">
+       
   <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${
         movie.title
       }" />  
@@ -113,7 +133,6 @@ function generateMainContent(container) {
       ? `${movie.releaseDate[2]}-${movie.releaseDate[1]}, ${movie.releaseDate[0]}`
       : "Release date not available"
   }</p>
-</div>
       `;
       moviesContainerToDisplay.appendChild(cardDiv);
     });
@@ -171,7 +190,8 @@ function generateMainContent(container) {
       options
     );
     const data = await res.json();
-    displayMovieList(data.results.slice(0, 10));
+    const filtered = data.results.filter((movie) => movie.poster_path);
+    displayMovieList(filtered.slice(0, 10));
   }
 
   function searchMovies() {
@@ -188,11 +208,11 @@ function generateMainContent(container) {
     movies.forEach((movie) => {
       const movieListItem = document.createElement("div");
       movieListItem.classList.add("search-list-item");
+      movieListItem.setAttribute("id", `${movie.id}`);
       const posterUrl = movie.poster_path
         ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
         : "https://via.placeholder.com/200x300?text=No+Image";
       movieListItem.innerHTML = `
-      <div class="search-list-item" id="${movie.id}">
                 <div class="search-list-thumbnail">
                   <img
                     src="${posterUrl}"
@@ -201,8 +221,7 @@ function generateMainContent(container) {
                 </div>
                 <div class="search-item-info">
                   <h3>${movie.title}</h3>
-                </div>
-              </div>`;
+                </div>`;
       searchList.appendChild(movieListItem);
     });
     searchList.addEventListener("click", (event) => {
