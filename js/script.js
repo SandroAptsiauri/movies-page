@@ -1,20 +1,3 @@
-// const fetchImages = async () => {
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       accept: "application/json",
-//       Authorization:
-//         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
-//     },
-//   };
-//   const res = await fetch(
-//     `https://api.themoviedb.org/3/movie/${1265623}/images`,
-//     options
-//   );
-//   const data = await res.json();
-//   console.log(data);
-// };
-// fetchImages();
 function generateMainContent(container) {
   container.innerHTML = `
   <section>
@@ -26,7 +9,9 @@ function generateMainContent(container) {
 
   <section>
       <div class="search-box">
+        <div id="image-box">
       <img src="./images/house-of-the-dragon-s2-ka-1920.avif" alt="House of the Dragon" class="house-of-dragon-img" />
+        </div>
           <div class="text-on-image">
               <h1>Welcome.</h1>
               <p>Millions of movies, TV shows, and people to discover. Explore now.</p>
@@ -77,7 +62,43 @@ function generateMainContent(container) {
   const movieSearchBox = document.getElementById("movie-search-box");
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
+  const imageBox = document.getElementById("image-box");
 
+  // const fetchImages = async () => {
+  //   const options = {
+  //     method: "GET",
+  //     headers: {
+  //       accept: "application/json",
+  //       Authorization:
+  //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
+  //     },
+  //   };
+  //   const res = await fetch(
+  //     `https://api.themoviedb.org/3/trending/all/day?language=en-US`,
+  //     options
+  //   );
+  //   const data = await res.json();
+  //   const maped = data.results
+  //     .filter((movie) => movie.backdrop_path)
+  //     .map((movie) => ({
+  //       ...movie,
+  //       title: movie.title || movie.name,
+  //     }));
+  //   const randomMovie = maped[Math.floor(Math.random() * maped.length)];
+  //   if (maped.length > 0) {
+  //     displayImage(randomMovie.backdrop_path, maped.title);
+  //   }
+  // };
+
+  // const displayImage = (imgPath, title) => {
+  //   imageBox.innerHTML = "";
+  //   const imgItem = document.createElement("img");
+  //   imgItem.src = `https://image.tmdb.org/t/p/w500${imgPath}`;
+  //   imgItem.alt = `${title}`;
+  //   imgItem.classList.add("random-img");
+  //   imageBox.appendChild(imgItem);
+  // };
+  // fetchImages();
   const BASE_URL = "https://api.themoviedb.org/3";
   const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
   const options = {
@@ -176,13 +197,6 @@ function generateMainContent(container) {
     freeToWatchMovies.classList.add("active");
     freeToWatchTv.classList.remove("active");
   });
-  // const searchTerm = () => {
-  //   const query = searchInput.value.toLowerCase();
-  //   const filteredMovies = popularMovies.filter((movie) =>
-  //     movie.title.toLowerCase().includes(query)
-  //   );
-  //   displayMovies(filteredMovies);
-  // };
 
   async function loadMovies(searchTerm) {
     const res = await fetch(
