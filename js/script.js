@@ -1,3 +1,12 @@
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
+  },
+};
+
 function generateMainContent(container) {
   container.innerHTML = `
   <section>
@@ -69,16 +78,7 @@ function generateMainContent(container) {
 
   const BASE_URL = "https://api.themoviedb.org/3";
   const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
-    },
-  };
 
-  // MOVIES FETCHING AND DISPLAYING THEM
   let movies = [];
   let loading = false;
   const fetchMovies = async (urlToFetch, moviesContainer) => {
@@ -130,12 +130,18 @@ function generateMainContent(container) {
         console.log(movieId);
 
         getPageContent("about");
-        display(movieId);
+        if (freeToWatchTv.classList.contains("active")) {
+          console.log(freeToWatchTv.classList);
+          display("tv", movieId);
+          window.scrollTo(0, 0);
+        } else {
+          display("movie", movieId);
+          window.scrollTo(0, 0);
+        }
       }
     });
   }
-
-  fetchMovies("/trending/all/day?language=en-US", trendingMoviesContainer);
+  fetchMovies("/trending/movie/day?language=en-US", trendingMoviesContainer);
   fetchMovies("/movie/popular?language=en-US&page=1", popularMoviesContainer);
   fetchMovies(
     `/discover/movie?&watch_region=US&with_watch_monetization_types=free`,
@@ -143,7 +149,7 @@ function generateMainContent(container) {
   );
 
   trendingWeekBtn.addEventListener("click", () => {
-    fetchMovies("/trending/all/week?language=en-US", trendingMoviesContainer);
+    fetchMovies("/trending/movie/week?language=en-US", trendingMoviesContainer);
     trendingWeekBtn.classList.add("active");
     trendingDayBtn.classList.remove("active");
   });
@@ -206,7 +212,7 @@ function generateMainContent(container) {
       movieListItem.classList.add("search-list-item");
       const posterUrl = movie.poster_path
         ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-        : "https://via.placeholder.com/200x300?text=No+Image";
+        : "./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg";
       movieListItem.innerHTML = `
       <div class="search-list-item" id="${movie.id}">
                 <div class="search-list-thumbnail">
@@ -221,15 +227,16 @@ function generateMainContent(container) {
               </div>`;
       searchList.appendChild(movieListItem);
     });
-    searchList.addEventListener("click", (event) => {
-      if (event.target.classList.contains("search-list-item")) {
-        const movieId = event.target.getAttribute("id");
-        console.log(movieId);
-        getPageContent("about");
-        display(movieId);
-      }
-    });
   }
+
+  searchList.addEventListener("click", (event) => {
+    if (event.target.classList.contains("search-list-item")) {
+      const movieId = event.target.getAttribute("id");
+      getPageContent("about");
+      display("movie", movieId);
+      window.scrollTo(0, 0);
+    }
+  });
 
   movieSearchBox.addEventListener("keyup", searchMovies);
   document.addEventListener("click", (event) => {
@@ -251,7 +258,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const pages = {
   home: `
-        <ul class="ul-list"></ul>`,
+        <ul class="ul-list">
+        </ul>`,
   about: `<div class="main-container">
             <div class="details-nav-cont">
               <ul class="details-nav">
@@ -449,52 +457,6 @@ const pages = {
           </div>`,
 };
 
-const options = {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs"}`,
-    accept: "application/json",
-  },
-};
-
-// const ul_list = document.querySelector(".ul-list");
-
-// ul_list.addEventListener("click", function (e) {
-//   console.log(e.target.id);
-
-//   if (e.target.tagName.toLowerCase() === "li") {
-//     getPageContent("about");
-//     display(e.target.id);
-//   }
-// });
-
-// const header_link = document.querySelector(".header-link");
-
-// header_link.addEventListener("click", function () {
-//   document.getElementById("main-container").innerHTML = "";
-//   getPageContent("home");
-
-//   const ul_list = document.querySelector(".ul-list");
-//   Array.from(ul_list.children).forEach((cur) => {
-//     cur.addEventListener("click", function () {
-//       getPageContent("about");
-//       display(cur.id);
-//     });
-//   });
-// });
-
-// const move = document.querySelector(".gilgamesh");
-
-// move.addEventListener("click", function () {
-//   const movie_id = 1197306;
-
-//   document.getElementById("content").innerHTML = "";
-
-//   getPageContent("about");
-
-//   display(movie_id);
-// });
-
 function display_error(err) {
   const main_container = document.querySelector(".main-container");
 
@@ -511,7 +473,7 @@ function display_error(err) {
 `;
 }
 
-function display(movie_id) {
+function display(type, movie_id) {
   const shimmerOverlay = document.querySelector(".shimmer-overlay");
 
   shimmerOverlay.classList.remove("hidden");
@@ -519,40 +481,57 @@ function display(movie_id) {
   async function fetchMovieDetails(id) {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
+        `https://api.themoviedb.org/3/${type}/${id}?language=en-US`,
         options
       );
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to fetch Movie Details");
-      // }
+      if (!response.ok) {
+        throw new Error("Failed to fetch Movie Details");
+      }
 
       const res = await response.json();
 
       const movie_title = document.querySelector(".movie-title");
-      movie_title.textContent = res.original_title || "Title is not available";
-      movie_title.textContent === "Title is not available"
+      const release_date = document.querySelector(".release-date");
+      const genres_list = document.querySelector(".genres-list");
+      const score_percent = document.querySelector(".score-percent");
+      const overview_p = document.querySelector(".overview-p");
+
+      if (type === "tv") {
+        movie_title.textContent =
+          res.name || "The Name of the show in not available";
+        release_date.textContent = `(${
+          res.first_air_date?.split("-")[0]
+            ? res.first_air_date.split("-")[0]
+            : res.first_air_date || "First Air Date in not available"
+        })`;
+      } else {
+        movie_title.textContent =
+          res.original_title || "Title is not available";
+        release_date.textContent = `(${
+          res.release_date?.split("-")[0]
+            ? res.release_date.split("-")[0]
+            : res.release_date || "Release Date is not available"
+        })`;
+      }
+
+      movie_title.textContent === "Title is not available" ||
+      (movie_title.textContent === "The Name of the show in not available" &&
+        type === "tv")
         ? (movie_title.style.color = "#ff8484")
         : null;
 
-      const release_date = document.querySelector(".release-date");
-      release_date.textContent = `(${
-        res.release_date?.split("-")[0]
-          ? res.release_date.split("-")[0]
-          : res.release_date || "Release Date is not available"
-      })`;
-
-      release_date.textContent === "(Release Date is not available)"
+      release_date.textContent === "(Release Date is not available)" ||
+      (type === "tv" &&
+        release_date.textContent === "(First Air Date in not available)")
         ? (release_date.style.color = "#ff8484")
         : null;
 
-      const genres_list = document.querySelector(".genres-list");
       genres_list.textContent = res.genres[0].name || "Genres is not available";
       genres_list.textContent === "Genres is not available"
         ? (genres_list.style.color = "#ff8484")
         : null;
 
-      const score_percent = document.querySelector(".score-percent");
       score_percent.textContent =
         res.popularity?.toFixed(2) || "Pop Score is not available";
       score_percent.textContent === "Pop Score is not available"
@@ -560,26 +539,28 @@ function display(movie_id) {
             "color: #ff8484; font-size: 1rem; text-align: center;")
         : null;
 
-      const overview_p = document.querySelector(".overview-p");
-      overview_p.textContent = res.overview || "Overview is not available";
+      overview_p.textContent =
+        !res.overview || res.overview === ""
+          ? "Overview is not available"
+          : res.overview;
       overview_p.textContent === "Overview is not available"
         ? (overview_p.style.cssText = "color: #ff8484; font-size: 2.5rem;")
         : null;
     } catch (err) {
-      // display_error(err);
+      display_error(err);
     }
   }
 
   async function fetchMovieMedia(id) {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}/images`,
+        `https://api.themoviedb.org/3/${type}/${id}/images`,
         options
       );
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to fetch images and other media.");
-      // }
+      if (!response.ok) {
+        throw new Error("Failed to fetch images and other media.");
+      }
 
       const resMedia = await response.json();
 
@@ -618,13 +599,13 @@ function display(movie_id) {
 
       async function media_list() {
         const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movie_id}/images`,
+          `https://api.themoviedb.org/3/${type}/${movie_id}/images`,
           options
         );
         const res = await response.json();
 
         if (bck.classList.contains("active")) {
-          if (res.backdrops) {
+          if (res.backdrops && res.backdrops.length !== 0) {
             res.backdrops.forEach((cur) => {
               const backdrop = document.createElement("div");
               backdrop.setAttribute("class", "backdrop");
@@ -645,7 +626,7 @@ function display(movie_id) {
         }
 
         if (lgs.classList.contains("active")) {
-          if (res.logos) {
+          if (res.logos && res.logos.length !== 0) {
             res.logos.forEach((cur) => {
               const logo = document.createElement("div");
               logo.setAttribute("class", "logo");
@@ -667,7 +648,7 @@ function display(movie_id) {
         }
 
         if (pst.classList.contains("active")) {
-          if (res.posters) {
+          if (res.posters && res.posters.length !== 0) {
             res.posters.forEach((cur) => {
               const poster = document.createElement("div");
               poster.setAttribute("class", "poster");
@@ -687,6 +668,13 @@ function display(movie_id) {
             media_scroller_list.textContent = "Posters Data Not Available";
           }
         }
+
+        media_scroller_list.textContent === `Backdrops Data Not Available` ||
+        media_scroller_list.textContent === `Posters Data Not Available` ||
+        media_scroller_list.textContent === `Logos Data Not Available`
+          ? (media_scroller_list.style.cssText =
+              "font-weight: 700; font-size: 2rem; padding: 20px 30px; color: rgb(255, 132, 132); overflow-x: hidden;")
+          : null;
       }
 
       bck.addEventListener("click", function () {
@@ -726,26 +714,26 @@ function display(movie_id) {
       media_scroller_list.textContent = "Media Data Is Not Available.";
       media_scroller_list.style.cssText =
         "overflow-x: hidden; font-size: 4rem; padding: 6rem 11rem; font-weight: 700; color: #ff8484";
-      // display_error(err);
+      display_error(err);
     }
   }
 
   async function creditsFetch(id) {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+        `https://api.themoviedb.org/3/${type}/${id}/credits?language=en-US`,
         options
       );
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to fetch credits data.");
-      // }
+      if (!response.ok) {
+        throw new Error("Failed to fetch credits data.");
+      }
 
       const res = await response.json();
 
       const olCrew = document.querySelector(".people");
 
-      if (!res.crew) {
+      if (!res.crew || res.crew.length === 0) {
         olCrew.textContent = "Crew Data Is Not Available.";
         olCrew.style.cssText =
           "font-weight: 700; font-size: 2rem; padding: 2rem 3rem; color:#ff8484";
@@ -771,7 +759,7 @@ function display(movie_id) {
 
       const olCast = document.querySelector(".scroller-cast-list");
 
-      if (!res.cast) {
+      if (!res.cast || res.cast.length === 0) {
         olCast.textContent = "Cast Data Is Not Available.";
         olCast.style.fontWeight = "700";
         olCast.style.fontSize = "2rem";
@@ -808,31 +796,41 @@ function display(movie_id) {
       }
     } catch (err) {
       console.log(err);
-      // display_error(err);
+      display_error(err);
     }
   }
 
   async function keywordsFetch(id) {
     try {
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}/keywords`,
+        `https://api.themoviedb.org/3/${type}/${id}/keywords`,
         options
       );
 
       // if (!response.ok) {
-      //   throw new Error("Failed to fetch keyframes data.");
+      //   throw new Error("Failed to fetch Keywords data.");
       // }
 
       const res = await response.json();
 
       const keywords_ul = document.querySelector(".col-2-keywords-ul");
 
-      if (!res.keywords) {
+      if (
+        (!res.keywords || res.keywords.length === 0) &&
+        (!res.results || res.results.length === 0)
+      ) {
         keywords_ul.textContent = "Keywords Data Is Not Available.";
         keywords_ul.style.cssText =
           "font-weight: 700; font-size: 2rem; color:#ff8484";
       } else {
-        res.keywords.forEach((cur) => {
+        let newRes;
+        if (type === "tv") {
+          newRes = res.results.slice(0, 10);
+        } else {
+          newRes = res.keywords.slice(0, 10);
+        }
+        console.log(newRes);
+        newRes.forEach((cur) => {
           const li = document.createElement("li");
           const p = document.createElement("p");
 
@@ -860,29 +858,9 @@ function display(movie_id) {
       display_error();
     })
     .finally(() => {
-      // setTimeout(() => shimmerOverlay.classList.add("hidden"), 500);
       shimmerOverlay.classList.add("hidden");
     });
 }
-
-// {
-/* <body onload="getPageContent('home');">
-      <header class="header">
-        <a href="./index.html" class="header_logo">Fletcher Flyer</a>
-        <ul class="header_nav">
-          <li class="header_list" style="line-height: 50px">
-            <a href="#" class="header_link" onclick="getPageContent('home')"
-              >Home</a
-            >
-            <a href="#" class="header_link" onclick="getPageContent('about')"
-              >About</a
-            >
-          </li>
-        </ul>
-      </header>
-      <div id="content"></div>
-    </body> */
-// }
 
 function getPageContent(page) {
   let contentToReturn;
