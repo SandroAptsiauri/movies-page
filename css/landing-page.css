@@ -104,7 +104,7 @@ header {
 .whole-search-bar {
   position: relative;
 }
-.house-of-dragon-img {
+.main-page-backdrop {
   height: 500px;
   width: 100%;
 }
@@ -235,4 +235,8 @@ footer div p {
 .btn.active {
   background: #6a1b9a;
   color: white;
+}
+
+.search-box {
+  text-shadow: 0px 1px 50px rgba(0, 0, 0, 0.8);
 }

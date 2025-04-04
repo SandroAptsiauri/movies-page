@@ -7,6 +7,8 @@ const options = {
   },
 };
 
+// const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
+
 function generateMainContent(container) {
   container.innerHTML = `
   <section>
@@ -19,9 +21,9 @@ function generateMainContent(container) {
   <section>
       <div class="search-box">
         <img
-          src="./images/house-of-the-dragon-s2-ka-1920.avif"
-          alt="House of the Dragon"
-          class="house-of-dragon-img"
+          src="./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
+          alt="main-page-backdrop"
+          class="main-page-backdrop"
         />
         <div class="text-on-image">
           <h1>Welcome.</h1>
@@ -76,8 +78,25 @@ function generateMainContent(container) {
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
 
+  const main_page_backdrop = document.querySelector(".main-page-backdrop");
+
+  fetch(
+    "https://api.themoviedb.org/3/trending/movie/day?language=en-US",
+    options
+  )
+    .then((res) => res.json())
+    .then((res) => {
+      main_page_backdrop.setAttribute(
+        "src",
+        `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/${
+          res.results[Math.floor(Math.random() * 20)].backdrop_path
+        }`
+      );
+      main_page_backdrop.style.backgroundColor = "rgba(0,0,0,.2)";
+    })
+    .catch((err) => console.error(err));
+
   const BASE_URL = "https://api.themoviedb.org/3";
-  const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
 
   let movies = [];
   let loading = false;
@@ -123,15 +142,12 @@ function generateMainContent(container) {
     });
 
     moviesContainerToDisplay.addEventListener("click", (event) => {
-      console.log(event.target);
       const movieItem = event.target.closest(".card");
       if (movieItem) {
         const movieId = movieItem.getAttribute("id");
-        console.log(movieId);
 
         getPageContent("about");
         if (freeToWatchTv.classList.contains("active")) {
-          console.log(freeToWatchTv.classList);
           display("tv", movieId);
           window.scrollTo(0, 0);
         } else {
@@ -178,13 +194,6 @@ function generateMainContent(container) {
     freeToWatchMovies.classList.add("active");
     freeToWatchTv.classList.remove("active");
   });
-  // const searchTerm = () => {
-  //   const query = searchInput.value.toLowerCase();
-  //   const filteredMovies = popularMovies.filter((movie) =>
-  //     movie.title.toLowerCase().includes(query)
-  //   );
-  //   displayMovies(filteredMovies);
-  // };
 
   async function loadMovies(searchTerm) {
     const res = await fetch(
@@ -252,14 +261,25 @@ document.addEventListener("DOMContentLoaded", () => {
   generateMainContent(mainContainer);
 });
 
+const home_page = document.querySelector(".home-page");
+home_page.style.cssText = "cursor: pointer;";
+
+home_page.addEventListener("click", function () {
+  getPageContent("home");
+
+  const home_container = document.querySelector(".home-container");
+
+  generateMainContent(home_container);
+});
+
 /////////////////////////////////////////////////////////////////////////
 // merged scripts
 /////////////////////////////////////////////////////////////////////////
 
 const pages = {
   home: `
-        <ul class="ul-list">
-        </ul>`,
+        <div class="home-container">
+        </div>`,
   about: `<div class="main-container">
             <div class="details-nav-cont">
               <ul class="details-nav">
@@ -575,7 +595,7 @@ function display(type, movie_id) {
       const movie_details = document.querySelector(".movie-details");
       movie_details.style.backgroundImage = resMedia.posters[0].file_path
         ? `url(
-      https://image.tmdb.org/t/p/w500${resMedia.posters[0].file_path}
+      https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${resMedia.posters[0].file_path}
     )`
         : null;
 
@@ -795,7 +815,6 @@ function display(type, movie_id) {
         });
       }
     } catch (err) {
-      console.log(err);
       display_error(err);
     }
   }
@@ -807,9 +826,9 @@ function display(type, movie_id) {
         options
       );
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to fetch Keywords data.");
-      // }
+      if (!response.ok) {
+        throw new Error("Failed to fetch Keywords data.");
+      }
 
       const res = await response.json();
 
@@ -829,7 +848,6 @@ function display(type, movie_id) {
         } else {
           newRes = res.keywords.slice(0, 10);
         }
-        console.log(newRes);
         newRes.forEach((cur) => {
           const li = document.createElement("li");
           const p = document.createElement("p");
@@ -841,7 +859,7 @@ function display(type, movie_id) {
         });
       }
     } catch (err) {
-      // display_error(err);
+      display_error(err);
     }
   }
 
@@ -854,8 +872,7 @@ function display(type, movie_id) {
       ]);
     })
     .catch((err) => {
-      console.log(err);
-      display_error();
+      display_error(err);
     })
     .finally(() => {
       shimmerOverlay.classList.add("hidden");
