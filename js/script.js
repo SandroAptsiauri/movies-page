@@ -418,6 +418,18 @@ const pages = {
                     <div class="media-scroller-cont">
                       <div class="media-scroller-list"></div>
                     </div>
+                    <div class="media-list" style='padding-top: 30px'>
+                      <h3>Videos</h3>
+                      <ul>
+                        <li class="trailers active">
+                          trailers <span class="media-list-trailers-num"></span>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <div class="media-scroller-cont-trailers">
+                      <div class="media-scroller-list-trailers"></div>
+                    </div>
                   </div>
                 </div>
                 <div class="content-wrapper-col-2">
@@ -498,6 +510,24 @@ function display(type, movie_id) {
 
   shimmerOverlay.classList.remove("hidden");
 
+  // fetch(
+  //   `https://api.themoviedb.org/3/tv/${movie_id}/videos?language=en-US`,
+  //   options
+  // )
+  //   .then((res) => res.json())
+  //   .then((res) =>
+  //     console.log(res.results.filter((cur) => cur.type === "Trailer"))
+  //   )
+  //   .catch((err) => console.error(err));
+
+  // fetch(
+  //   `https://api.themoviedb.org/3/movie/${movie_id}/videos?language=en-US`,
+  //   options
+  // )
+  //   .then((res) => res.json())
+  //   .then((res) => {})
+  //   .catch((err) => console.error(err));
+
   async function fetchMovieDetails(id) {
     try {
       const response = await fetch(
@@ -522,7 +552,7 @@ function display(type, movie_id) {
           res.name || "The Name of the show in not available";
         release_date.textContent = `(${
           res.first_air_date?.split("-")[0]
-            ? res.first_air_date.split("-")[0]
+            ? res.first_air_date?.split("-")[0]
             : res.first_air_date || "First Air Date in not available"
         })`;
       } else {
@@ -530,7 +560,7 @@ function display(type, movie_id) {
           res.original_title || "Title is not available";
         release_date.textContent = `(${
           res.release_date?.split("-")[0]
-            ? res.release_date.split("-")[0]
+            ? res.release_date?.split("-")[0]
             : res.release_date || "Release Date is not available"
         })`;
       }
@@ -547,7 +577,8 @@ function display(type, movie_id) {
         ? (release_date.style.color = "#ff8484")
         : null;
 
-      genres_list.textContent = res.genres[0].name || "Genres is not available";
+      genres_list.textContent =
+        res.genres[0]?.name || "Genres is not available";
       genres_list.textContent === "Genres is not available"
         ? (genres_list.style.color = "#ff8484")
         : null;
@@ -584,18 +615,87 @@ function display(type, movie_id) {
 
       const resMedia = await response.json();
 
+      console.log(resMedia);
+
+      // trailer *************************************
+      let resTrailersData;
+      if (type === "tv") {
+        resTrailersData = await fetch(
+          `https://api.themoviedb.org/3/tv/${movie_id}/videos?language=en-US`,
+          options
+        );
+      } else if (type === "movie") {
+        resTrailersData = await fetch(
+          `https://api.themoviedb.org/3/movie/${movie_id}/videos?language=en-US`,
+          options
+        );
+      }
+
+      const resTrailers = await resTrailersData.json();
+
+      console.log(
+        resTrailers.results.filter((cur) => cur.key === "3-vgfKTou08")
+      );
+      const trailer_cont = document.querySelector(
+        ".media-scroller-list-trailers"
+      );
+      resTrailers.results
+        // .filter((cur) => cur.type === "Trailer")
+        .slice(0, 10)
+        .forEach((cur) => {
+          console.log(cur);
+
+          const trailer = document.createElement("div");
+          trailer.setAttribute("class", "trailer");
+          trailer.style.cssText = `background-image: url('https://i.ytimg.com/vi/${cur.key}/hqdefault.jpg'); min-width: 533px; width: 533px; min-height: 300px; height: 300px; box-sizing: border-box; background-position: center; background-repeat: no-repeat; overflow: hidden; background-size: 100%;`;
+
+          const trailer_a = document.createElement("a");
+          trailer_a.style.cssText =
+            "width: 100%; height: 100%;display: flex; align-items: center;justify-content: center;";
+          trailer_a.setAttribute(
+            "href",
+            `https://www.youtube.com/watch?v=${cur.key}`
+          );
+
+          const play_icon_cont = document.createElement("div");
+          play_icon_cont.setAttribute("class", "play-icon-cont");
+          play_icon_cont.style.cssText =
+            "width: 67px; height: 67px; display: flex;align-items: center; justify-content: center; border-radius: 50%; background: rgba(0, 0, 0, .7);";
+
+          const play_icon_svg = document.createElement("span");
+          play_icon_svg.setAttribute("class", "play-icon-cont");
+          play_icon_svg.style.cssText =
+            "width: 50%; height: 50%; left: 1px; filter: invert(100%) brightness(120%) contrast(100%); transition: opacity 200ms linear; background-image: url('../assets/glyphicons-basic-175-play-806cb05551791b8dedd7f8d38fd3bd806e2d397fcfeaa00a5cc9129f0819fd07.svg');";
+
+          trailer.append(trailer_a);
+          play_icon_cont.append(play_icon_svg);
+          trailer_a.append(play_icon_cont);
+
+          trailer_cont.append(trailer);
+          // if (cur.profile_path === null) return;
+
+          // backdrop_img.setAttribute(
+          //   "src",
+          //   "https://image.tmdb.org/t/p/w500" + `${cur.file_path}`
+          // );
+          // backdrop.append(backdrop_img);
+          // media_scroller_list.append(backdrop);
+        });
+
+      // trailer *************************************
+
       const image = document.querySelector(".poster-image");
       image.setAttribute(
         "src",
-        resMedia.posters[0].file_path
-          ? `https://image.tmdb.org/t/p/w500${resMedia.posters[0].file_path}`
+        resMedia.posters[0]?.file_path
+          ? `https://image.tmdb.org/t/p/w500${resMedia.posters[0]?.file_path}`
           : "./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
       );
 
       const movie_details = document.querySelector(".movie-details");
-      movie_details.style.backgroundImage = resMedia.posters[0].file_path
+      movie_details.style.backgroundImage = resMedia.posters[0]?.file_path
         ? `url(
-      https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${resMedia.posters[0].file_path}
+      https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${resMedia.posters[0]?.file_path}
     )`
         : null;
 
@@ -734,6 +834,8 @@ function display(type, movie_id) {
       media_scroller_list.textContent = "Media Data Is Not Available.";
       media_scroller_list.style.cssText =
         "overflow-x: hidden; font-size: 4rem; padding: 6rem 11rem; font-weight: 700; color: #ff8484";
+
+      console.log(err);
       display_error(err);
     }
   }
@@ -872,6 +974,7 @@ function display(type, movie_id) {
       ]);
     })
     .catch((err) => {
+      //new error should be thrown
       display_error(err);
     })
     .finally(() => {

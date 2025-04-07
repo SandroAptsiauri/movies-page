@@ -510,6 +510,16 @@ li.profile {
   left: 0;
 }
 
+.media-scroller-list-trailers {
+  display: flex;
+  width: 100%;
+  border-radius: 0.8rem;
+  height: 300px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+}
+
 .media-scroller-list {
   display: flex;
   width: 100%;
