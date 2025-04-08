@@ -4,7 +4,7 @@ import { display_error } from "./displayError.js";
 export async function fetchMovieMedia(type, id) {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}/images`,
+      `https://api.themoviedb.org/3/${type}/${id}/images`,
       options
     );
 
@@ -15,29 +15,28 @@ export async function fetchMovieMedia(type, id) {
     const resMedia = await response.json();
 
     // trailer *************************************
-    let resTrailersData;
-    if (type === "tv") {
-      resTrailersData = await fetch(
-        `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`,
-        options
-      );
-    } else if (type === "movie") {
-      resTrailersData = await fetch(
-        `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
-        options
-      );
+    let resTrailersData = await fetch(
+      `https://api.themoviedb.org/3/${type}/${id}/videos?language=en-US`,
+      options
+    );
+
+    if (!resTrailersData.ok) {
+      throw new Error("Failed to fetch Trailers and Teasers.");
     }
 
     const resTrailers = await resTrailersData.json();
 
-    console.log(resTrailers.results.filter((cur) => cur.key === "3-vgfKTou08"));
     const trailer_cont = document.querySelector(
       ".media-scroller-list-trailers"
     );
-    resTrailers.results
-      // .filter((cur) => cur.type === "Trailer")
-      .slice(0, 10)
-      .forEach((cur) => {
+
+    const media_list_trailers_num = document.querySelector(
+      ".media-list-trailers-num"
+    );
+    media_list_trailers_num.textContent = resTrailers.results.length;
+
+    if (resTrailers.results && resTrailers.results.length !== 0) {
+      resTrailers.results.slice(0, 10).forEach((cur) => {
         const trailer = document.createElement("div");
         trailer.setAttribute("class", "trailer");
         trailer.style.cssText = `background-image: url('https://i.ytimg.com/vi/${cur.key}/hqdefault.jpg'); min-width: 533px; width: 533px; min-height: 300px; height: 300px; box-sizing: border-box; background-position: center; background-repeat: no-repeat; overflow: hidden; background-size: 100%;`;
@@ -45,10 +44,7 @@ export async function fetchMovieMedia(type, id) {
         const trailer_a = document.createElement("a");
         trailer_a.style.cssText =
           "width: 100%; height: 100%;display: flex; align-items: center;justify-content: center;";
-        trailer_a.setAttribute(
-          "href",
-          `https://www.youtube.com/watch?v=${cur.key}`
-        );
+        trailer_a.setAttribute("id", `${cur.key}`);
 
         const play_icon_cont = document.createElement("div");
         play_icon_cont.setAttribute("class", "play-icon-cont");
@@ -61,19 +57,30 @@ export async function fetchMovieMedia(type, id) {
           "width: 50%; height: 50%; left: 1px; filter: invert(100%) brightness(120%) contrast(100%); transition: opacity 200ms linear; background-image: url('../assets/glyphicons-basic-175-play-806cb05551791b8dedd7f8d38fd3bd806e2d397fcfeaa00a5cc9129f0819fd07.svg');";
 
         trailer.append(trailer_a);
-        play_icon_cont.append(play_icon_svg);
         trailer_a.append(play_icon_cont);
-
+        play_icon_cont.append(play_icon_svg);
         trailer_cont.append(trailer);
-        // if (cur.profile_path === null) return;
-
-        // backdrop_img.setAttribute(
-        //   "src",
-        //   "https://image.tmdb.org/t/p/w500" + `${cur.file_path}`
-        // );
-        // backdrop.append(backdrop_img);
-        // media_scroller_list.append(backdrop);
       });
+
+      const trailerVideo = document.getElementById("trailerVideo");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+
+      trailer_cont.addEventListener("click", function (e) {
+        trailerModal.style.display = "flex";
+        trailerVideo.setAttribute(
+          "src",
+          `https://www.youtube.com/embed/${e.target.id}`
+        );
+      });
+
+      closeModalBtn.addEventListener("click", () => {
+        trailerModal.style.display = "none";
+        trailerVideo.setAttribute("src", "");
+      });
+    } else {
+      trailer_cont.textContent = "Trailers and Teasers are not available.";
+      trailer_cont.classList.add("scroller-list-not-available");
+    }
 
     // trailer *************************************
 
@@ -181,8 +188,7 @@ export async function fetchMovieMedia(type, id) {
       media_scroller_list.textContent === `Backdrops Data Not Available` ||
       media_scroller_list.textContent === `Posters Data Not Available` ||
       media_scroller_list.textContent === `Logos Data Not Available`
-        ? (media_scroller_list.style.cssText =
-            "font-weight: 700; font-size: 2rem; padding: 20px 30px; color: rgb(255, 132, 132); overflow-x: hidden;")
+        ? media_scroller_list.classList.add("scroller-list-not-available")
         : null;
     }
 
@@ -217,11 +223,6 @@ export async function fetchMovieMedia(type, id) {
 
     media_list();
   } catch (err) {
-    const media_scroller_list = document.querySelector(".media-scroller-list");
-    media_scroller_list.textContent = "Media Data Is Not Available.";
-    media_scroller_list.style.cssText =
-      "overflow-x: hidden; font-size: 4rem; padding: 6rem 11rem; font-weight: 700; color: #ff8484";
-
     console.log(err);
     display_error(err);
   }
