@@ -64,8 +64,6 @@ function generateMainContent(container) {
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
 
-  console.log(env);
-  const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
   const options = {
     method: "GET",
     headers: {
