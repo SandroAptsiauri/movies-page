@@ -1,3 +1,4 @@
+import { env } from "./env.js";
 function generateMainContent(container) {
   container.innerHTML = `
   <section>
@@ -98,14 +99,14 @@ function generateMainContent(container) {
   //   imageBox.appendChild(imgItem);
   // };
   // fetchImages();
-  const BASE_URL = "https://api.themoviedb.org/3";
+
+  console.log(env);
   const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
   const options = {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
+      Authorization: `Bearer ${env.API_KEY}`,
     },
   };
 
@@ -116,7 +117,7 @@ function generateMainContent(container) {
     try {
       loading = true;
       moviesContainer.innerHTML = "<p>Loading . . . </p>";
-      const res = await fetch(`${BASE_URL}${urlToFetch}`, options);
+      const res = await fetch(`${env.BASE_URL}${urlToFetch}`, options);
       const data = await res.json();
       movies = data.results
         .filter((movie) => movie.poster_path)
