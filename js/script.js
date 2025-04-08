@@ -64,42 +64,6 @@ function generateMainContent(container) {
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
 
-  // const fetchImages = async () => {
-  //   const options = {
-  //     method: "GET",
-  //     headers: {
-  //       accept: "application/json",
-  //       Authorization:
-  //         "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NDhiYzlkMzUyMzdkNjQyM2FjZWM1YTRiOGJlY2RjOCIsIm5iZiI6MTc0MzA2Mjg3Ni44OTIsInN1YiI6IjY3ZTUwNzVjNWYwYmZhMGI2NmJhMmQ3OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Gkl9UhvpS-aMJy9huhth-nFaqMTtnzrMmixbTwcVfCs",
-  //     },
-  //   };
-  //   const res = await fetch(
-  //     `https://api.themoviedb.org/3/trending/all/day?language=en-US`,
-  //     options
-  //   );
-  //   const data = await res.json();
-  //   const maped = data.results
-  //     .filter((movie) => movie.backdrop_path)
-  //     .map((movie) => ({
-  //       ...movie,
-  //       title: movie.title || movie.name,
-  //     }));
-  //   const randomMovie = maped[Math.floor(Math.random() * maped.length)];
-  //   if (maped.length > 0) {
-  //     displayImage(randomMovie.backdrop_path, maped.title);
-  //   }
-  // };
-
-  // const displayImage = (imgPath, title) => {
-  //   imageBox.innerHTML = "";
-  //   const imgItem = document.createElement("img");
-  //   imgItem.src = `https://image.tmdb.org/t/p/w500${imgPath}`;
-  //   imgItem.alt = `${title}`;
-  //   imgItem.classList.add("random-img");
-  //   imageBox.appendChild(imgItem);
-  // };
-  // fetchImages();
-
   console.log(env);
   const API_KEY = "648bc9d35237d6423acec5a4b8becdc8";
   const options = {
