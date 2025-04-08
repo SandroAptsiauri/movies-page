@@ -12,22 +12,6 @@ body {
   font-size: 1.5rem;
 }
 
-/*  temporary ************************  */
-
-.nav {
-  height: 5rem;
-  align-items: center;
-  /* position: fixed;
-  top: 0;
-  left: 0; */
-  background-color: rgba(3, 37, 65, 1);
-  height: 64px;
-  z-index: 50;
-  transition: top 0.2s linear;
-}
-
-/*  temporary ************************  */
-
 .details-nav-cont {
   width: 100%;
 }
@@ -110,7 +94,7 @@ body {
   position: relative;
   top: 0;
   left: 0;
-  border-radius: var(--imageBorderRadius);
+  border-radius: 0.8rem;
   overflow: hidden;
 }
 
@@ -243,7 +227,6 @@ body {
   margin-left: 0.25rem;
   font-weight: 700;
   font-size: 2rem;
-  /* height: 3rem; */
 }
 
 .your-vibe {
@@ -540,12 +523,10 @@ li.profile {
   width: 533px;
   min-height: 300px;
   height: 300px;
-
   background-size: 30%;
   border: 0;
-  background-image: url(./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg);
+  background-image: url(../assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg);
   background-color: #dbdbdb;
-
   position: relative;
   top: 0;
   left: 0;
@@ -601,7 +582,6 @@ li.profile {
   width: 260px;
   display: flex;
   flex-wrap: wrap;
-  /* background-color: #0b1166; */
   z-index: 2;
   box-shadow: -200px 0 200px rgba(255, 255, 255, 0.7);
 }
@@ -675,9 +655,6 @@ button.watch-now {
 }
 
 /* 0000000000000000000000000000000000000
-
-00000000000000000
-
 000000000000000000000000000000000 */
 
 header {
@@ -729,27 +706,6 @@ footer div p {
   text-overflow: ellipsis;
   color: #fff;
 }
-
-/* .footer {
-  max-width: 100%;
-  width: 100vw;
-  height: 20rem;
-  box-sizing: border-box;
-  padding: 0;
-  background-image: radial-gradient(
-    at 30% top,
-    #031d33 0%,
-    rgba(3, 37, 65, 1) 70%
-  );
-  background-position: center top;
-  background-size: cover;
-  background-repeat: no-repeat;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: space-between;
-  display: flex;
-  justify-content: center;
-} */
 
 .shimmer-overlay {
   position: fixed;
@@ -808,13 +764,9 @@ footer div p {
   }
 }
 
-/* label
-0000000000000000000000000000000000000
-
+/*0000000000000000000000000000000000000
 error section
-
-0000000000000000000000000000000000000
-k */
+0000000000000000000000000000000000000 */
 
 .error-message {
   max-width: 70rem;
@@ -825,9 +777,7 @@ k */
   border-radius: 12px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-
   font-size: 5rem;
-
   height: 42vh;
 }
 
