@@ -250,3 +250,8 @@ footer div p {
   background: #6a1b9a;
   color: white;
 }
+#logo-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

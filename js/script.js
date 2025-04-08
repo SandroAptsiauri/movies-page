@@ -62,7 +62,6 @@ function generateMainContent(container) {
   const movieSearchBox = document.getElementById("movie-search-box");
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
-  const imageBox = document.getElementById("image-box");
 
   // const fetchImages = async () => {
   //   const options = {
@@ -253,8 +252,9 @@ function generateMainContent(container) {
     }
   });
 }
-
+const mainContainer = document.getElementById("main-container");
 document.addEventListener("DOMContentLoaded", () => {
-  const mainContainer = document.getElementById("main-container");
   generateMainContent(mainContainer);
 });
+const logoBtn = document.getElementById("logo-btn");
+logoBtn.addEventListener("click", () => generateMainContent(mainContainer));
