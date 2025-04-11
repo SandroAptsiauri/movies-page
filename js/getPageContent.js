@@ -1,8 +1,8 @@
 const pages = {
-  home: `
+  "/home": `
         <div class="home-container">
         </div>`,
-  about: `<div class="main-container">
+  "/about": `<div class="main-container">
             <div class="details-nav-cont">
               <ul class="details-nav">
                 <li class="nav-item">
@@ -214,14 +214,14 @@ const pages = {
 export function getPageContent(page) {
   let contentToReturn;
   switch (page) {
-    case "home":
-      contentToReturn = pages.home;
+    case "/home":
+      contentToReturn = pages["/home"];
       break;
-    case "about":
-      contentToReturn = pages.about;
+    case "/about":
+      contentToReturn = pages["/about"];
       break;
     default:
-      contentToReturn = pages.home;
+      contentToReturn = pages["/home"];
       break;
   }
   document.getElementById("main-container").innerHTML = contentToReturn;

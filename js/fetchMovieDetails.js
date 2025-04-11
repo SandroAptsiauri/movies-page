@@ -21,6 +21,8 @@ export async function fetchMovieDetails(type, id) {
     const overview_p = document.querySelector(".overview-p");
 
     if (type === "tv") {
+      document.title =
+        `Movie | ${res.name}` || "Movies Page | Your Favourite movies";
       movie_title.textContent =
         res.name || "The Name of the show in not available";
       release_date.textContent = `(${
@@ -29,6 +31,9 @@ export async function fetchMovieDetails(type, id) {
           : res.first_air_date || "First Air Date in not available"
       })`;
     } else {
+      document.title =
+        `Movie | ${res.original_title}` ||
+        "Movies Page | Your Favourite movies";
       movie_title.textContent = res.original_title || "Title is not available";
       release_date.textContent = `(${
         res.release_date?.split("-")[0]

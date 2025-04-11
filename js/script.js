@@ -8,6 +8,7 @@ import { display_error } from "./displayError.js";
 import { getPageContent } from "./getPageContent.js";
 
 function generateMainContent(container) {
+  document.title = "Movies Page | Your Favourite movies";
   container.innerHTML = `
   <section>
       <div class="search-container" id="search-container">
@@ -92,12 +93,13 @@ function generateMainContent(container) {
       );
       main_page_backdrop.style.backgroundColor = "rgba(0,0,0,.2)";
     })
-    .catch((err) => console.error(err));
+    .catch((err) => display_error(err));
 
   const BASE_URL = "https://api.themoviedb.org/3";
 
   let movies = [];
   let loading = false;
+
   const fetchMovies = async (urlToFetch, moviesContainer) => {
     try {
       loading = true;
@@ -116,7 +118,7 @@ function generateMainContent(container) {
       displayMovies(movies, moviesContainer);
       loading = false;
     } catch (error) {
-      console.error("Error fetching movies:", error);
+      display_error(error);
     }
   };
 
@@ -140,21 +142,30 @@ function generateMainContent(container) {
     });
 
     moviesContainerToDisplay.addEventListener("click", (event) => {
+      event.preventDefault();
       const movieItem = event.target.closest(".card");
       if (movieItem) {
         const movieId = movieItem.getAttribute("id");
+        if (
+          freeToWatchTv.classList.contains("active") &&
+          event.currentTarget.id === "free-movies"
+        ) {
+          window.history.pushState(null, null, `/#tv/#${movieId}`);
+          getPageContent("/about");
 
-        getPageContent("about");
-        if (freeToWatchTv.classList.contains("active")) {
           display("tv", movieId);
           window.scrollTo(0, 0);
         } else {
+          window.history.pushState(null, null, `/#movie/#${movieId}`);
+          getPageContent("/about");
+
           display("movie", movieId);
           window.scrollTo(0, 0);
         }
       }
     });
   }
+
   fetchMovies("/trending/movie/day?language=en-US", trendingMoviesContainer);
   fetchMovies("/movie/popular?language=en-US&page=1", popularMoviesContainer);
   fetchMovies(
@@ -166,12 +177,17 @@ function generateMainContent(container) {
     fetchMovies("/trending/movie/week?language=en-US", trendingMoviesContainer);
     trendingWeekBtn.classList.add("active");
     trendingDayBtn.classList.remove("active");
+
+    window.history.pushState(null, null, "/#week");
   });
 
   trendingDayBtn.addEventListener("click", () => {
     fetchMovies("/trending/all/day?language=en-US", trendingMoviesContainer);
+
     trendingDayBtn.classList.add("active");
     trendingWeekBtn.classList.remove("active");
+
+    window.history.pushState(null, null, "/");
   });
 
   freeToWatchTv.addEventListener("click", () => {
@@ -182,6 +198,8 @@ function generateMainContent(container) {
 
     freeToWatchTv.classList.add("active");
     freeToWatchMovies.classList.remove("active");
+
+    window.history.pushState(null, null, `/#tv`);
   });
 
   freeToWatchMovies.addEventListener("click", () => {
@@ -191,6 +209,8 @@ function generateMainContent(container) {
     );
     freeToWatchMovies.classList.add("active");
     freeToWatchTv.classList.remove("active");
+
+    window.history.pushState(null, null, `/#movie`);
   });
 
   async function loadMovies(searchTerm) {
@@ -239,7 +259,7 @@ function generateMainContent(container) {
   searchList.addEventListener("click", (event) => {
     if (event.target.classList.contains("search-list-item")) {
       const movieId = event.target.getAttribute("id");
-      getPageContent("about");
+      getPageContent("/about");
       display("movie", movieId);
       window.scrollTo(0, 0);
     }
@@ -255,24 +275,106 @@ function generateMainContent(container) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const mainContainer = document.getElementById("main-container");
-  generateMainContent(mainContainer);
+  let path = window.location.hash;
+  console.log(window.location.hash);
+
+  if (
+    path === "" ||
+    !path ||
+    path === "#trending" ||
+    path === "#popular" ||
+    path === "#free" ||
+    path === "#week" ||
+    path === "#today" ||
+    path === "#tv" ||
+    path === "#movie"
+  ) {
+    const mainContainer = document.getElementById("main-container");
+    generateMainContent(mainContainer);
+    console.log(document.getElementById("week"));
+    console.log(document.getElementById("today"));
+    if (path === "#week") {
+      console.log(path);
+      document.getElementById("week").classList.add("active");
+      document.getElementById("today").classList.remove("active");
+    }
+  } else {
+    const movieId = path.split("#")[2];
+
+    console.log(path.split("#")[1].split("/")[0]);
+
+    if (path.split("#")[1].split("/")[0] === "tv") {
+      getPageContent(`/about`);
+
+      display("tv", movieId);
+      window.scrollTo(0, 0);
+    } else {
+      console.log(movieId);
+      getPageContent(`/about`);
+      display("movie", movieId);
+    }
+  }
+});
+
+window.addEventListener("hashchange", () => {
+  console.log(window.location.hash);
+
+  let path = window.location.hash;
+
+  console.log(path);
+
+  if (
+    path === "trending" ||
+    path === "popular" ||
+    path === "free" ||
+    path === "today"
+  )
+    return;
+
+  if (!path) {
+    path = "/";
+  }
+
+  if (path === "/") {
+    getPageContent(`/home`);
+    const mainContainer = document.getElementById("main-container");
+    generateMainContent(mainContainer);
+  } else if (path === "#week") {
+    getPageContent(`/home`);
+    const mainContainer = document.getElementById("main-container");
+    generateMainContent(mainContainer);
+
+    document.getElementById("week").classList.add("active");
+    document.getElementById("today").classList.remove("active");
+  } else {
+    const movieId = window.location.hash.split("#")[2];
+
+    console.log(movieId);
+
+    if (window.location.hash.split("#")[1].split("/")[0] === "tv") {
+      getPageContent(`/about`);
+
+      display("tv", movieId);
+      window.scrollTo(0, 0);
+    } else {
+      console.log(movieId);
+      getPageContent(`/about`);
+      display("movie", movieId);
+    }
+  }
 });
 
 const home_page = document.querySelector(".home-page");
 home_page.style.cssText = "cursor: pointer;";
 
-home_page.addEventListener("click", function () {
-  getPageContent("home");
+home_page.addEventListener("click", function (e) {
+  window.history.pushState(null, null, "/");
+  getPageContent("/home");
 
   const home_container = document.querySelector(".home-container");
 
   generateMainContent(home_container);
 });
-
-/////////////////////////////////////////////////////////////////////////
-// merged scripts
-/////////////////////////////////////////////////////////////////////////
 
 function display(type, movie_id) {
   const shimmerOverlay = document.querySelector(".shimmer-overlay");
@@ -286,8 +388,6 @@ function display(type, movie_id) {
     keywordsFetch(type, movie_id),
   ])
     .catch((err) => {
-      //new error should be thrown
-      console.log(err);
       display_error(err);
     })
     .finally(() => {

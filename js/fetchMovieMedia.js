@@ -33,6 +33,7 @@ export async function fetchMovieMedia(type, id) {
     const media_list_trailers_num = document.querySelector(
       ".media-list-trailers-num"
     );
+
     media_list_trailers_num.textContent = resTrailers.results.length;
 
     if (resTrailers.results && resTrailers.results.length !== 0) {
