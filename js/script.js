@@ -15,7 +15,7 @@ function generateMainContent(container) {
         </div>
           <div class="text-on-image">
               <h1>Welcome.</h1>
-              <p>Millions of movies, TV shows, and people to discover. Explore now.</p>
+              <p>Millions of movies, TV shows, and people to discover. <br/>Explore now.</p>
           </div>
       </div>
   </section>
@@ -63,6 +63,19 @@ function generateMainContent(container) {
   const movieSearchBox = document.getElementById("movie-search-box");
   const searchList = document.getElementById("search-list");
   const searchContainer = document.getElementById("search-container");
+  const hamburgenMenu = document.getElementById("ham-menu");
+  const offScreenMenu = document.querySelector(".off-screen-menu");
+  const offScreenMenuNavigate = document.querySelector(".off-screen-menu-tags");
+
+  offScreenMenuNavigate.addEventListener("click", () => {
+    offScreenMenu.classList.remove("active");
+    hamburgenMenu.classList.remove("active");
+  });
+
+  hamburgenMenu.addEventListener("click", () => {
+    hamburgenMenu.classList.toggle("active");
+    offScreenMenu.classList.toggle("active");
+  });
 
   const options = {
     method: "GET",
@@ -220,4 +233,7 @@ document.addEventListener("DOMContentLoaded", () => {
   generateMainContent(mainContainer);
 });
 const logoBtn = document.getElementById("logo-btn");
-logoBtn.addEventListener("click", () => generateMainContent(mainContainer));
+logoBtn.addEventListener("click", () => {
+  window.scrollTo(0, 0);
+  generateMainContent(mainContainer);
+});

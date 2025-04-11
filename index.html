@@ -13,15 +13,30 @@
   <body>
     <header>
       <div class="navbar">
+        <div class="off-screen-menu">
+          <div class="off-screen-menu-tags">
+            <a href="#trending">Trending</a>
+            <a href="#popular">Popular Streaming</a>
+            <a href="#free">Free to Watch</a>
+          </div>
+        </div>
+        <div class="ham-menu" id="ham-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <button id="logo-btn">
           <img
             src="./images/blue_short-8e7b30f73a4020692ccca9c88bafe5dcb6f8a62a4c6bc55cd9ba82bb2cd95f6c.svg"
             alt="The movie data base"
           />
         </button>
-        <a href="#trending">Trending</a>
-        <a href="#popular">Popular Streaming</a>
-        <a href="#free">Free To Watch</a>
+
+        <div class="header-links">
+          <a href="#trending" class="off-screen-navigator">Trending</a>
+          <a href="#popular" class="off-screen-navigator">Popular Streaming</a>
+          <a href="#free" class="off-screen-navigator">Free To Watch</a>
+        </div>
       </div>
     </header>
 
@@ -30,35 +45,37 @@
       <div class="footer-logo">
         <img
           src="./images/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
-          alt="საას"
+          alt="page-logo"
         />
       </div>
-      <div>
-        <h2>THE BASICS</h2>
-        <p>About TMDB</p>
-        <p>Contact Us</p>
-        <p>Support Forums</p>
-        <p>API Documentation</p>
-        <p>System Status</p>
-      </div>
-      <div>
-        <h2>GET INVOLVED</h2>
-        <p>Contribution Bible</p>
-        <p>Add New Movie</p>
-        <p>Add New TV Show</p>
-      </div>
-      <div>
-        <h2>COMMMUNITY</h2>
-        <p>Guidelines</p>
-        <p>Discussions</p>
-        <p>Leaderboard</p>
-      </div>
-      <div>
-        <h2>LEGAL</h2>
-        <p>Terms of Use</p>
-        <p>API Terms of Use</p>
-        <p>Privacy Policy</p>
-        <p>DMCA Policy</p>
+      <div class="footer-description">
+        <div class="footer-item">
+          <h2>THE BASICS</h2>
+          <p>About TMDB</p>
+          <p>Contact Us</p>
+          <p>Support Forums</p>
+          <p>API Documentation</p>
+          <p>System Status</p>
+        </div>
+        <div class="footer-item">
+          <h2>GET INVOLVED</h2>
+          <p>Contribution Bible</p>
+          <p>Add New Movie</p>
+          <p>Add New TV Show</p>
+        </div>
+        <div class="footer-item">
+          <h2>COMMMUNITY</h2>
+          <p>Guidelines</p>
+          <p>Discussions</p>
+          <p>Leaderboard</p>
+        </div>
+        <div class="footer-item">
+          <h2>LEGAL</h2>
+          <p>Terms of Use</p>
+          <p>API Terms of Use</p>
+          <p>Privacy Policy</p>
+          <p>DMCA Policy</p>
+        </div>
       </div>
     </footer>
     <script type="module" src="./js/script.js"></script>
