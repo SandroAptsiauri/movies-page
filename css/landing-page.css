@@ -170,6 +170,7 @@ header {
 
 .movie-section {
   margin-top: 45px;
+  scroll-margin-top: 150px;
 }
 
 .movie-main-container {
@@ -324,6 +325,7 @@ footer div p {
   top: 50%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+
 @media (max-width: 580px) {
   .movie-main-container {
     padding: 0px;
