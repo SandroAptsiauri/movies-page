@@ -1,5 +1,6 @@
 import { options } from "./utils/apiDependencies.js";
 import { display_error } from "./utils/displayError.js";
+import { viewMore } from "./utils/viewMore.js";
 
 export async function creditsFetch(type, id) {
   try {
@@ -21,22 +22,26 @@ export async function creditsFetch(type, id) {
       olCrew.style.cssText =
         "font-weight: 700; font-size: 2rem; padding: 2rem 3rem; color:#ff8484";
     } else {
-      res.crew.forEach((cur) => {
-        if (cur.job === "Director" || cur.job === "Producer") {
-          const li = document.createElement("li");
-          li.setAttribute("class", "profile");
+      const crewArr = res.crew
+        .filter(
+          (curCrew) => curCrew.job === "Director" || curCrew.job === "Producer"
+        )
+        .filter((_, i) => i < 6);
 
-          const p_name = document.createElement("p");
-          p_name.setAttribute("class", "character-name");
-          p_name.textContent = cur.original_name;
+      crewArr.forEach((cur) => {
+        const li = document.createElement("li");
+        li.setAttribute("class", "profile");
 
-          const p_job = document.createElement("p");
-          p_job.setAttribute("class", "character-job");
-          p_job.textContent = cur.job;
+        const p_name = document.createElement("p");
+        p_name.setAttribute("class", "character-name");
+        p_name.textContent = cur.original_name;
 
-          olCrew.appendChild(li);
-          li.append(p_name, p_job);
-        }
+        const p_job = document.createElement("p");
+        p_job.setAttribute("class", "character-job");
+        p_job.textContent = cur.job;
+
+        olCrew.appendChild(li);
+        li.append(p_name, p_job);
       });
     }
 
@@ -50,7 +55,7 @@ export async function creditsFetch(type, id) {
       olCast.style.color = "#ff8484";
       olCast.style.overflowX = "hidden";
     } else {
-      res.cast.forEach((cur) => {
+      res.cast.slice(0, 9).forEach((cur) => {
         const li = document.createElement("li");
         li.setAttribute("class", "scroller-card");
 
@@ -76,6 +81,8 @@ export async function creditsFetch(type, id) {
         olCast.appendChild(li);
         li.append(scroller_card_img, p__actor_name, p_character_name);
       });
+
+      viewMore("scroller-card", olCast);
     }
   } catch (err) {
     display_error(err);

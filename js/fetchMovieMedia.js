@@ -1,5 +1,6 @@
 import { options } from "./utils/apiDependencies.js";
 import { display_error } from "./utils/displayError.js";
+import { viewMore } from "./utils/viewMore.js";
 
 export async function fetchMovieMedia(type, id) {
   try {
@@ -62,6 +63,8 @@ export async function fetchMovieMedia(type, id) {
         trailer.append(trailer_a);
         trailer_cont.append(trailer);
       });
+
+      viewMore("trailer", trailer_cont);
 
       const closeModalBtn = document.createElement("button");
       const iframe_cont = document.querySelector(".iframe-cont");
@@ -132,7 +135,7 @@ export async function fetchMovieMedia(type, id) {
 
       if (bck.classList.contains("active")) {
         if (res.backdrops && res.backdrops.length !== 0) {
-          res.backdrops.forEach((cur) => {
+          res.backdrops.slice(0, 7).forEach((cur) => {
             const backdrop = document.createElement("div");
             backdrop.setAttribute("class", "backdrop");
 
@@ -146,6 +149,8 @@ export async function fetchMovieMedia(type, id) {
             backdrop.append(backdrop_img);
             media_scroller_list.append(backdrop);
           });
+
+          viewMore("trailer", media_scroller_list);
         } else {
           media_scroller_list.textContent = "Backdrops Data Not Available";
         }
@@ -153,7 +158,7 @@ export async function fetchMovieMedia(type, id) {
 
       if (lgs.classList.contains("active")) {
         if (res.logos && res.logos.length !== 0) {
-          res.logos.forEach((cur) => {
+          res.logos.slice(0, 5).forEach((cur) => {
             const logo = document.createElement("div");
             logo.setAttribute("class", "logo");
 
@@ -168,6 +173,8 @@ export async function fetchMovieMedia(type, id) {
 
             media_scroller_list.append(logo);
           });
+
+          viewMore("logos", media_scroller_list);
         } else {
           media_scroller_list.textContent = "Logos Data Not Available";
         }
@@ -175,7 +182,7 @@ export async function fetchMovieMedia(type, id) {
 
       if (pst.classList.contains("active")) {
         if (res.posters && res.posters.length !== 0) {
-          res.posters.forEach((cur) => {
+          res.posters.slice(0, 12).forEach((cur) => {
             const poster = document.createElement("div");
             poster.setAttribute("class", "poster");
 
@@ -190,6 +197,8 @@ export async function fetchMovieMedia(type, id) {
 
             media_scroller_list.append(poster);
           });
+
+          viewMore("logos", media_scroller_list);
         } else {
           media_scroller_list.textContent = "Posters Data Not Available";
         }

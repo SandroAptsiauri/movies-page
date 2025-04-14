@@ -7,7 +7,6 @@ export async function fetchMovieDetails(type, id) {
       `https://api.themoviedb.org/3/${type}/${id}?language=en-US`,
       options
     );
-
     if (!response.ok) {
       throw new Error("Failed to fetch Movie Details");
     }

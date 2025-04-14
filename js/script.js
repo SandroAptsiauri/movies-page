@@ -5,6 +5,7 @@ import { getPageContent } from "./getPageContent.js";
 document.addEventListener("DOMContentLoaded", () => {
   let path = window.location.hash;
   getPageContent("/home");
+
   const mainContainer = document.getElementById("main-container");
 
   const hashArr = ["", "#trending", "#popular", "#free", "#week", "#tv"];
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       getPageContent(`/about`);
       display("movie", movieId);
+      window.scrollTo(0, 0);
     }
   }
 });
@@ -73,6 +75,7 @@ window.addEventListener("hashchange", () => {
       window.scrollTo(0, 0);
     } else {
       display("movie", movieId);
+      window.scrollTo(0, 0);
     }
   }
 });

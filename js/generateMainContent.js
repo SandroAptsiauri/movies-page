@@ -83,24 +83,21 @@ export function generateMainContent(container) {
     });
 
     moviesContainerToDisplay.addEventListener("click", (event) => {
-      event.preventDefault();
       const movieItem = event.target.closest(".card");
       if (movieItem) {
         const movieId = movieItem.getAttribute("id");
+        getPageContent("/about");
+
         if (
           freeToWatchTv.classList.contains("active") &&
           event.currentTarget.id === "free-movies"
         ) {
           window.location.hash = `#tv/#${movieId}`;
-          getPageContent("/about");
 
-          display("tv", movieId);
           window.scrollTo(0, 0);
         } else {
           window.location.hash = `#movie/#${movieId}`;
-          getPageContent("/about");
 
-          display("movie", movieId);
           window.scrollTo(0, 0);
         }
       }
