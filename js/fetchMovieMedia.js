@@ -1,5 +1,5 @@
 import { options } from "./apiDependencies.js";
-import { display_error } from "./displayError.js";
+import { display_error } from "./utils/displayError.js";
 
 export async function fetchMovieMedia(type, id) {
   try {
@@ -57,26 +57,35 @@ export async function fetchMovieMedia(type, id) {
         play_icon_svg.style.cssText =
           "width: 50%; height: 50%; left: 1px; filter: invert(100%) brightness(120%) contrast(100%); transition: opacity 200ms linear; background-image: url('../assets/glyphicons-basic-175-play-806cb05551791b8dedd7f8d38fd3bd806e2d397fcfeaa00a5cc9129f0819fd07.svg');";
 
-        trailer.append(trailer_a);
-        trailer_a.append(play_icon_cont);
         play_icon_cont.append(play_icon_svg);
+        trailer_a.append(play_icon_cont);
+        trailer.append(trailer_a);
         trailer_cont.append(trailer);
       });
 
-      const trailerVideo = document.getElementById("trailerVideo");
-      const closeModalBtn = document.getElementById("closeModalBtn");
+      const closeModalBtn = document.createElement("button");
+      const iframe_cont = document.querySelector(".iframe-cont");
+      closeModalBtn.id = "closeModalBtn";
+      closeModalBtn.innerHTML = `&times;`;
 
       trailer_cont.addEventListener("click", function (e) {
+        if (iframe_cont.innerHTML !== "") return;
+        e.preventDefault();
+        const iframe = document.createElement("iframe");
+        iframe.id = "trailerVideo";
+        iframe.frameBorder = "0";
+        iframe.src = `https://www.youtube.com/embed/${e.target.id}`;
+        iframe.allowFullscreen = true;
+
+        iframe_cont.append(closeModalBtn);
+        iframe_cont.append(iframe);
+
         trailerModal.style.display = "flex";
-        trailerVideo.setAttribute(
-          "src",
-          `https://www.youtube.com/embed/${e.target.id}`
-        );
       });
 
       closeModalBtn.addEventListener("click", () => {
+        iframe_cont.innerHTML = "";
         trailerModal.style.display = "none";
-        trailerVideo.setAttribute("src", "");
       });
     } else {
       trailer_cont.textContent = "Trailers and Teasers are not available.";
@@ -224,7 +233,6 @@ export async function fetchMovieMedia(type, id) {
 
     media_list();
   } catch (err) {
-    console.log(err);
     display_error(err);
   }
 }

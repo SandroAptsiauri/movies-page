@@ -1,6 +1,62 @@
 const pages = {
   "/home": `
         <div class="home-container">
+          <section>
+              <div class="search-container" id="search-container">
+                  <input type="text" class="moving-input" autocomplete="off" placeholder="Search for a movie, tv show, person..." id="movie-search-box" />
+                  <div class="search-list" id="search-list"></div>
+              </div>
+          </section>
+        
+          <section>
+              <div class="search-box">
+                <img
+                  src="./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
+                  alt="main-page-backdrop"
+                  class="main-page-backdrop"
+                />
+                <div class="text-on-image">
+                  <h1>Welcome.</h1>
+                  <p>
+                    Millions of movies, TV shows, and people to discover. Explore now.
+                  </p>
+                </div>
+              </div>
+            </section>
+        
+          <section class="movie-main-container">
+              <section class="movie-section" id="trending">
+                  <div class="movie-header" >
+                      <h3>Trending</h3>
+                      <div class="movie-date">
+                          <button class="btn active" id="today">Today</button>
+                          <button class="btn" id="week">This week</button>
+                      </div>
+                  </div>
+                  <div class="movies-container" id="trending-movies"></div>
+              </section>
+              
+              <section class="movie-section" id="popular">
+                  <div class="movie-header">
+                      <h3>What's Popular</h3>
+                      <div class="movie-date">
+                          <button class="btn active" id="streaming">Streaming</button>
+                      </div>
+                  </div>
+                  <div class="movies-container" id="popular-movies"></div>
+              </section>
+        
+              <section class="movie-section" id="free">
+                  <div class="movie-header">
+                      <h3>Free To Watch</h3>
+                      <div class="movie-date">
+                          <button class="btn active" id="free-movies-btn">Movies</button>
+                          <button class="btn" id="tv-free">TV</button>
+                      </div>
+                  </div>
+                  <div class="movies-container" id="free-movies"></div>
+              </section>
+          </section>
         </div>`,
   "/about": `<div class="main-container">
             <div class="details-nav-cont">
