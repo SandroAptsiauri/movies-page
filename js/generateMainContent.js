@@ -1,6 +1,6 @@
 import { display } from "./utils/display.js";
 import { getPageContent } from "./getPageContent.js";
-import { options } from "./apiDependencies.js";
+import { options } from "./utils/apiDependencies.js";
 import { display_error } from "./utils/displayError.js";
 
 export function generateMainContent(container) {

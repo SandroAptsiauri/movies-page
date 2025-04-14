@@ -1,4 +1,4 @@
-import { options } from "./apiDependencies.js";
+import { options } from "./utils/apiDependencies.js";
 import { display_error } from "./utils/displayError.js";
 
 export async function keywordsFetch(type, id) {
