@@ -64,8 +64,10 @@ export async function fetchMovieMedia(type, id) {
         trailer_cont.append(trailer);
       });
 
-      viewMore("trailer", trailer_cont);
-
+      if (resTrailers.results.length > 10) {
+        viewMore("trailer", trailer_cont);
+        trailer_cont.lastChild.style.minWidth = "max-content";
+      }
       const closeModalBtn = document.createElement("button");
       const iframe_cont = document.querySelector(".iframe-cont");
       closeModalBtn.id = "closeModalBtn";
@@ -150,7 +152,7 @@ export async function fetchMovieMedia(type, id) {
             media_scroller_list.append(backdrop);
           });
 
-          viewMore("trailer", media_scroller_list);
+          res.backdrops.length > 7 && viewMore("trailer", media_scroller_list);
         } else {
           media_scroller_list.textContent = "Backdrops Data Not Available";
         }
@@ -174,7 +176,7 @@ export async function fetchMovieMedia(type, id) {
             media_scroller_list.append(logo);
           });
 
-          viewMore("logos", media_scroller_list);
+          res.logos.length > 5 && viewMore("logos", media_scroller_list);
         } else {
           media_scroller_list.textContent = "Logos Data Not Available";
         }
@@ -197,8 +199,7 @@ export async function fetchMovieMedia(type, id) {
 
             media_scroller_list.append(poster);
           });
-
-          viewMore("logos", media_scroller_list);
+          res.posters.length > 12 && viewMore("logos", media_scroller_list);
         } else {
           media_scroller_list.textContent = "Posters Data Not Available";
         }

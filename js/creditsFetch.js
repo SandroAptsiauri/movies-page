@@ -81,8 +81,7 @@ export async function creditsFetch(type, id) {
         olCast.appendChild(li);
         li.append(scroller_card_img, p__actor_name, p_character_name);
       });
-
-      viewMore("scroller-card", olCast);
+      res.cast.length > 10 && viewMore("scroller-card", olCast);
     }
   } catch (err) {
     display_error(err);

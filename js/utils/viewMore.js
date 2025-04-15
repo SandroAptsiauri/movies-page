@@ -3,7 +3,7 @@ export function viewMore(className, container) {
   more.classList.add(className);
 
   more.style.cssText =
-    "display: flex; align-items: center; border: none; font-weight: 900; font-size: 3rem; margin-left: 2.5rem;";
+    "display: flex; align-items: center; border: none; font-weight: 900; font-size: 3rem; margin-left: 2.5rem; cursor: pointer;";
 
   const more_p = document.createElement("p");
   more_p.textContent = "View More...";
