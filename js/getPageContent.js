@@ -10,11 +10,13 @@ const pages = {
         
           <section>
               <div class="search-box">
+              <div id="image-box">
                 <img
                   src="./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
                   alt="main-page-backdrop"
                   class="main-page-backdrop"
                 />
+                </div>
                 <div class="text-on-image">
                   <h1>Welcome.</h1>
                   <p>

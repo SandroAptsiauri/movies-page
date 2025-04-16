@@ -25,4 +25,36 @@ home_page.addEventListener("click", function () {
   const home_container = document.querySelector(".home-container");
 
   generateMainContent(home_container);
+  window.scrollTo(0, 0);
+});
+
+const hamburgenMenu = document.getElementById("ham-menu");
+const offScreenMenu = document.querySelector(".off-screen-menu");
+const offScreenMenuNavigate = document.querySelector(".off-screen-menu-tags");
+
+window.addEventListener("resize", () => {
+  if (innerWidth > 580) {
+    offScreenMenu.classList.remove("active");
+    hamburgenMenu.classList.remove("active");
+  }
+});
+
+offScreenMenuNavigate.addEventListener("click", () => {
+  offScreenMenu.classList.remove("active");
+  hamburgenMenu.classList.remove("active");
+});
+
+hamburgenMenu.addEventListener("click", () => {
+  hamburgenMenu.classList.toggle("active");
+  offScreenMenu.classList.toggle("active");
+});
+
+document.addEventListener("click", (event) => {
+  if (
+    !hamburgenMenu.contains(event.target) &&
+    !offScreenMenu.contains(event.target)
+  ) {
+    hamburgenMenu.classList.remove("active");
+    offScreenMenu.classList.remove("active");
+  }
 });

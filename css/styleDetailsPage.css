@@ -1,9 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 html {
   font-size: 62.5%;
   scroll-behavior: smooth;
@@ -658,7 +652,7 @@ button.watch-now {
 /* 0000000000000000000000000000000000000
 000000000000000000000000000000000 */
 
-header {
+/* header {
   text-align: center;
   width: 100%;
 }
@@ -706,7 +700,7 @@ footer div p {
   overflow: hidden;
   text-overflow: ellipsis;
   color: #fff;
-}
+} */
 
 .shimmer-overlay {
   position: fixed;
@@ -862,4 +856,54 @@ error section
 #trailerVideo {
   width: 100%;
   height: 450px;
+}
+@media (max-width: 580px) {
+  .details-nav {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .movie-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .content-wrapper-col-1 {
+    width: 100%;
+  }
+  .scroller-cast {
+    border-radius: 10px;
+  }
+  .movie-info-inside {
+    padding-left: 0;
+  }
+  .movie-title-cont {
+    text-align: center;
+    justify-content: center;
+  }
+  .content-wrapper {
+    flex-direction: column;
+  }
+  .media-list ul {
+    display: flex;
+  }
+  footer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .footer-logo img {
+    max-width: 200px;
+  }
+  .footer-description {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-item {
+    width: 100%;
+  }
+  .media-list {
+    margin-bottom: 15px;
+  }
 }

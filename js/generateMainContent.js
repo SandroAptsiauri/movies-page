@@ -47,15 +47,17 @@ export function generateMainContent(container) {
       const res = await fetch(`${BASE_URL}${urlToFetch}`, options);
       const data = await res.json();
 
-      movies = data.results.map((movie) => ({
-        ...movie,
-        title: movie.name || movie.title,
-        releaseDate: movie.release_date
-          ? movie.release_date.split("-")
-          : movie.first_air_date
-          ? movie.first_air_date.split("-")
-          : null,
-      }));
+      movies = data.results
+        .filter((movie) => movie.poster_path)
+        .map((movie) => ({
+          ...movie,
+          title: movie.name || movie.title,
+          releaseDate: movie.release_date
+            ? movie.release_date.split("-")
+            : movie.first_air_date
+            ? movie.first_air_date.split("-")
+            : null,
+        }));
       displayMovies(movies, moviesContainer);
       loading = false;
     } catch (error) {
@@ -170,7 +172,8 @@ export function generateMainContent(container) {
       options
     );
     const data = await res.json();
-    displayMovieList(data.results.slice(0, 10));
+    const filtered = data.results.filter((movie) => movie.poster_path);
+    displayMovieList(filtered.slice(0, 10));
   }
 
   function searchMovies() {
@@ -212,6 +215,7 @@ export function generateMainContent(container) {
       const movieId = event.target.getAttribute("id");
       getPageContent("/about");
       display("movie", movieId);
+      window.location.hash = `#movie/#${movieId}`;
       window.scrollTo(0, 0);
     }
   });
