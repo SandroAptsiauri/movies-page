@@ -22,6 +22,23 @@ export function handleRouting() {
     }
 
     generateMainContent(mainContainer);
+
+    const navbar = document.querySelector(".navbar");
+    const heightToSub = parseFloat(getComputedStyle(navbar).height);
+
+    const interval = setInterval(() => {
+      const element = document.querySelector(
+        path === "#tv" ? "#free" : path === "#week" ? "#trending" : path
+      );
+      if (element) {
+        const k = element.getBoundingClientRect();
+        window.scrollTo(
+          k.left + window.pageXOffset,
+          k.top + window.pageYOffset - heightToSub
+        );
+        clearInterval(interval);
+      }
+    }, 50);
   } else {
     const movieId = path.split("#")[2];
 

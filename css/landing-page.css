@@ -322,15 +322,10 @@ footer div p {
 }
 
 @media (max-width: 580px) {
-  .movie-main-container {
-    padding: 0px;
-  }
   .movie-section {
     scroll-margin-top: 120px;
   }
-  .movie-header {
-    padding-left: 10px;
-  }
+
   .movies-container {
     gap: 40px;
   }
