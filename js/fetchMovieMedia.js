@@ -56,7 +56,7 @@ export async function fetchMovieMedia(type, id) {
         const play_icon_svg = document.createElement("span");
         play_icon_svg.setAttribute("class", "play-icon-cont");
         play_icon_svg.style.cssText =
-          "width: 50%; height: 50%; left: 1px; filter: invert(100%) brightness(120%) contrast(100%); transition: opacity 200ms linear; background-image: url('../assets/glyphicons-basic-175-play-806cb05551791b8dedd7f8d38fd3bd806e2d397fcfeaa00a5cc9129f0819fd07.svg');";
+          "width: 50%; height: 50%; left: 1px; filter: invert(100%) brightness(120%) contrast(100%); transition: opacity 200ms linear; background-image: url('/sweeft-project-movies-page/assets/glyphicons-basic-175-play-806cb05551791b8dedd7f8d38fd3bd806e2d397fcfeaa00a5cc9129f0819fd07.svg');";
 
         play_icon_cont.append(play_icon_svg);
         trailer_a.append(play_icon_cont);
@@ -104,7 +104,7 @@ export async function fetchMovieMedia(type, id) {
       "src",
       resMedia.posters[0]?.file_path
         ? `https://image.tmdb.org/t/p/w500${resMedia.posters[0]?.file_path}`
-        : "./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
+        : "/sweeft-project-movies-page/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
     );
 
     const movie_details = document.querySelector(".movie-details");

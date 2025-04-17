@@ -193,7 +193,7 @@ export function generateMainContent(container) {
       movieListItem.classList.add("search-list-item");
       const posterUrl = movie.poster_path
         ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-        : "./assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg";
+        : "/sweeft-project-movies-page/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg";
       movieListItem.innerHTML = `
         <div class="search-list-item" id="${movie.id}">
                   <div class="search-list-thumbnail">
