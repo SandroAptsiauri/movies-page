@@ -66,7 +66,7 @@ export async function creditsFetch(type, id) {
         scroller_card_img.setAttribute(
           "src",
           cur.profile_path === null
-            ? "./assets/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg"
+            ? "/sweeft-project-movies-page/assets/glyphicons-basic-4-user-grey-d8fe957375e70239d6abdd549fd7568c89281b2179b5f4470e2e12895792dfa5.svg"
             : "https://image.tmdb.org/t/p/w500" + `${cur.profile_path}`
         );
 
