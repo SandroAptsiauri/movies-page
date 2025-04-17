@@ -35,6 +35,8 @@ header {
 .header-links {
   display: flex;
   gap: 25px;
+  align-items: center;
+  margin-left: 20px;
 }
 .off-screen-menu {
   background-color: rgba(3, 37, 65, 1);
@@ -237,9 +239,18 @@ footer {
   justify-content: center;
   gap: 20px;
   margin-top: 30px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
+
+/* footer div {
+  flex-shrink: 1;
+} */
+
 .footer-logo img {
+  padding-top: 10px;
   width: 70%;
+  min-width: 150px;
 }
 footer div h2 {
   line-height: 1.4em;
@@ -320,6 +331,14 @@ footer div p {
   top: 50%;
   transform: translate(-50%, -50%) rotate(-45deg);
 }
+@media (max-width: 770px) {
+  footer {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
 
 @media (max-width: 580px) {
   .movie-section {
@@ -345,12 +364,6 @@ footer div p {
     display: none;
   }
 
-  footer {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
   .footer-logo img {
     max-width: 200px;
   }

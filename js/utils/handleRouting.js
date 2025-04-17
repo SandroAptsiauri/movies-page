@@ -31,8 +31,10 @@ export function handleRouting() {
       const element = document.querySelector(
         path === "#tv" ? "#free" : path === "#week" ? "#trending" : path
       );
+
       if (element) {
         const k = element.getBoundingClientRect();
+
         window.scrollTo(
           k.left + window.pageXOffset,
           k.top + window.pageYOffset - heightToSub
