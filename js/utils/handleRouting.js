@@ -27,6 +27,7 @@ export function handleRouting() {
     const heightToSub = parseFloat(getComputedStyle(navbar).height);
 
     const interval = setInterval(() => {
+      if (path === "/") return;
       const element = document.querySelector(
         path === "#tv" ? "#free" : path === "#week" ? "#trending" : path
       );
