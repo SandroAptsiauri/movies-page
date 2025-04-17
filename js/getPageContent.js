@@ -148,7 +148,7 @@ const pages = {
                               </div>
                             </div>
                             <div class="icons-actions">
-                              <div class="tooltip"><img src='../assets/list.png'/></div>
+                              <div class="tooltip"><img src='/assets/list.png'/></div>
                               <div class="tooltip heart"><img src='../assets/heart-svgrepo-com.svg'/></div>
                               <div class="tooltip"><img src='../assets/bookmark.png'/></div>
                               <div class="trailer-player">Play Trailer</div>
