@@ -1,3 +1,5 @@
+import { githubUrl } from "./utils/githubUrl.js";
+
 const pages = {
   "/home": `
         <div class="home-container">
@@ -12,7 +14,9 @@ const pages = {
               <div class="search-box">
               <div id="image-box">
                 <img
-                  src="/movies-page/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
+                  src="${
+                    githubUrl || "../"
+                  }/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg"
                   alt="main-page-backdrop"
                   class="main-page-backdrop"
                 />
@@ -115,7 +119,9 @@ const pages = {
                           <div class="blured">
                             <img
                             class='poster-image'
-                              src='/movies-page/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg'
+                              src='${
+                                githubUrl || "../"
+                              }/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg'
                               alt="default movie icon"
                             />
                           </div>
@@ -148,9 +154,15 @@ const pages = {
                               </div>
                             </div>
                             <div class="icons-actions">
-                              <div class="tooltip"><img src='/movies-page/assets/list.png'/></div>
-                              <div class="tooltip heart"><img src='/movies-page/assets/heart-svgrepo-com.svg'/></div>
-                              <div class="tooltip"><img src='/movies-page/assets/bookmark.png'/></div>
+                              <div class="tooltip"><img src='${
+                                githubUrl || "../"
+                              }/assets/list.png'/></div>
+                              <div class="tooltip heart"><img src='${
+                                githubUrl || "../"
+                              }/assets/heart-svgrepo-com.svg'/></div>
+                              <div class="tooltip"><img src='${
+                                githubUrl || "../"
+                              }/assets/bookmark.png'/></div>
                               <div class="trailer-player">Play Trailer</div>
                             </div>
                           </div>
@@ -224,7 +236,7 @@ const pages = {
                         style="height: 30px; margin-bottom: 30px"
                       >
                         <img
-                          src="/movies-page/assets/link.png"
+                          src="${githubUrl || "../"}/assets/link.png"
                           alt="link"
                           style="height: 100%"
                         />

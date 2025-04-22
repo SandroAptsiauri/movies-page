@@ -43,11 +43,11 @@ export function handleRouting() {
       }
     }, 50);
   } else {
-    const movieId = path.split("#")[2];
+    const movieId = path.split("#").at(-1);
 
     getPageContent(`/about`);
 
-    if (path.split("#")[1].split("/")[0] === "tv") {
+    if (path.split("#").at(-2).split("/")[0] === "tv") {
       display("tv", movieId);
       window.scrollTo(0, 0);
     } else {

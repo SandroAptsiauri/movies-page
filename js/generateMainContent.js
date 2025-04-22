@@ -2,6 +2,7 @@ import { display } from "./utils/display.js";
 import { getPageContent } from "./getPageContent.js";
 import { options } from "./utils/apiDependencies.js";
 import { display_error } from "./utils/displayError.js";
+import { githubUrl } from "./utils/githubUrl.js";
 
 export function generateMainContent(container) {
   document.title = "Movies Page | Your Favourite movies";
@@ -94,11 +95,11 @@ export function generateMainContent(container) {
           freeToWatchTv.classList.contains("active") &&
           event.currentTarget.id === "free-movies"
         ) {
-          window.location.hash = `#tv/#${movieId}`;
+          window.location.hash = `/#tv/#${movieId}`;
 
           window.scrollTo(0, 0);
         } else {
-          window.location.hash = `#movie/#${movieId}`;
+          window.location.hash = `/#movie/#${movieId}`;
 
           window.scrollTo(0, 0);
         }
@@ -193,7 +194,9 @@ export function generateMainContent(container) {
       movieListItem.classList.add("search-list-item");
       const posterUrl = movie.poster_path
         ? `https://image.tmdb.org/t/p/w200${movie.poster_path}`
-        : "/movies-page/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg";
+        : `${
+            githubUrl || "../"
+          }/assets/glyphicons-basic-38-picture-4ee37443c461fff5bc221b43ae018a5dae317469c8e2479a87d562537dd45fdc.svg`;
       movieListItem.innerHTML = `
         <div class="search-list-item" id="${movie.id}">
                   <div class="search-list-thumbnail">

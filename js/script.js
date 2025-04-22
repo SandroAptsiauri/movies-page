@@ -1,5 +1,6 @@
 import { generateMainContent } from "./generateMainContent.js";
 import { getPageContent } from "./getPageContent.js";
+import { githubUrl } from "./utils/githubUrl.js";
 import { handleRouting } from "./utils/handleRouting.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +20,7 @@ const home_page = document.querySelector(".home-page");
 home_page.style.cssText = "cursor: pointer;";
 
 home_page.addEventListener("click", function () {
-  window.history.pushState(null, null, "/");
+  window.history.pushState(null, null, githubUrl ? githubUrl : "/");
   getPageContent("/home");
 
   const home_container = document.querySelector(".home-container");
