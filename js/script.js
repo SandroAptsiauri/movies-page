@@ -20,7 +20,7 @@ const home_page = document.querySelector(".home-page");
 home_page.style.cssText = "cursor: pointer;";
 
 home_page.addEventListener("click", function () {
-  window.history.pushState(null, null, githubUrl ? githubUrl : "/");
+  window.location.hash = githubUrl ? githubUrl : "";
   getPageContent("/home");
 
   const home_container = document.querySelector(".home-container");
