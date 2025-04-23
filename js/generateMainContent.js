@@ -216,8 +216,6 @@ export function generateMainContent(container) {
   searchList.addEventListener("click", (event) => {
     if (event.target.classList.contains("search-list-item")) {
       const movieId = event.target.getAttribute("id");
-      getPageContent("/about");
-      display("movie", movieId);
       window.location.hash = `#movie/#${movieId}`;
       window.scrollTo(0, 0);
     }
